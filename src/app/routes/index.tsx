@@ -1,26 +1,20 @@
-import Login from "../initials/Login";
-import { useRoutes } from "react-router-dom";
-import Home from "../initials/Home";
-import Loading from "../initials/Loading";
-
+import Login from '../initials/Login';
+import { useRoutes } from 'react-router-dom';
+import Home from '../initials/Home';
 
 const AppRoutes = () => {
-    let routes = useRoutes([
-        {
-            path: '/',
-            element: <Loading/>
-        },
-        {
-            path: '/auth',
-            element: <Login/>
-        },
-        {
-            path: '/home',
-            element: <Home/>
-        }
-    ]);
+  let routes = useRoutes([
+    {
+      path: '/',
+      element: <Login />,
+    },
+    {
+      path: '/home',
+      element: <Home />,
+    },
+  ]);
 
-    return routes;
-}
+  return routes;
+};
 
 export default AppRoutes;

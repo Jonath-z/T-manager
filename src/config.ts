@@ -1,5 +1,5 @@
 export const TO_DO_CONTRACT_ADDRESS =
-  '0x7053270073C993724D25CF9C80127E8b07DB8d40';
+  '0xAE41060aB3fA522754DFd0e54d5bE7de220aC1F8';
 
 export const TO_DO_CONTRACT_ABI = [
   {
@@ -77,6 +77,50 @@ export const TO_DO_CONTRACT_ABI = [
     constant: true,
   },
   {
+    inputs: [],
+    name: 'userCount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'users',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: 'name',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: 'email',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
     inputs: [
       {
         internalType: 'string',
@@ -105,6 +149,24 @@ export const TO_DO_CONTRACT_ABI = [
       },
     ],
     name: 'createTasks',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_email',
+        type: 'string',
+      },
+    ],
+    name: 'createUser',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

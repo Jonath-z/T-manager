@@ -5,11 +5,8 @@ import {
   createContext,
   FC,
 } from 'react';
-import Web3 from 'web3';
-import {
-  TO_DO_CONTRACT_ADDRESS,
-  TO_DO_CONTRACT_ABI,
-} from '../../config';
+
+import web3Service from '../utils/services/web3';
 
 const initialState = [
   {
@@ -45,53 +42,48 @@ const AccountContext = createContext<AccountCxtType>(
 export const useAccount = () => useContext(AccountContext);
 
 const TasksProvider: FC = ({ children }): JSX.Element => {
-  let [tasks, setTasks] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [tasks, setTasks] = useState<any[]>([]);
   const [account, setAccount] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [failedToConnect, setFailedToConnect] = useState(false);
 
-  const getTasks = async (provider: any) => {
-    const Contract = new provider.eth.Contract(
-      TO_DO_CONTRACT_ABI,
-      TO_DO_CONTRACT_ADDRESS,
-    );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getTasks = async () => {
     try {
-      console.log('in process ...');
-      const tasksCount = await Contract.methods.taskCount().call();
+      const tasksCount = await web3Service.Contract.methods
+        .taskCount()
+        .call();
 
       for (let i = 0; i <= tasksCount; i++) {
-        const task = await Contract.methods.tasks(i).call();
+        const task = await web3Service.Contract.methods
+          .tasks(i)
+          .call();
         setTasks([task]);
         console.log(task);
       }
-      console.log(tasks);
-      console.log(tasksCount);
-      console.log('process done');
     } catch (err) {
       if (err) {
-        console.log(err);
+        setFailedToConnect(true);
+        setWalletConnected(false);
       }
     }
   };
 
   useEffect(() => {
     const load = async () => {
-      const web3_provider = new Web3(
-        Web3.givenProvider || 'http://localhost:8545',
-      );
-
       try {
-        const account = await web3_provider.eth.requestAccounts();
+        const account =
+          await web3Service.web3_provider.eth.requestAccounts();
         setAccount(account[0]);
         console.log(account[0]);
-        await getTasks(web3_provider);
+        await getTasks();
         setWalletConnected(true);
         setFailedToConnect(false);
       } catch (err) {
         alert('error when connecting to Metamask');
         setFailedToConnect(true);
         setWalletConnected(false);
-        console.log(err);
       }
     };
     load();

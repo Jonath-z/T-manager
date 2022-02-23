@@ -2,31 +2,49 @@ import React from 'react';
 import { AiOutlineMail } from 'react-icons/ai';
 import { signInwithPopup } from '../../../../../auth';
 import { useNavigate } from 'react-router-dom';
+import web3Service from '../../../../../utils/services/web3';
+import { useUsers } from '../../../../../contexts/users';
 
 const EmailButton = () => {
   const navigate = useNavigate();
+  const users = useUsers();
+
+  console.log('users', users);
 
   const signIn = async () => {
     try {
       const res = await signInwithPopup();
-      navigate('/home');
-      console.log(res.user?.displayName, res.user?.email);
+      users.forEach(async (user) => {
+        console.log('user', user);
+        if (user.email !== res.user?.email) {
+          try {
+            await web3Service.createUser(
+              res.user?.displayName,
+              res.user?.email,
+            );
+            navigate('/home');
+          } catch (err) {
+            alert('fail to login');
+            throw err;
+          }
+        } else {
+          navigate('/home');
+          console.log('user exist');
+        }
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="fixed bottom-10 left-0 right-5 w-full">
+    <div className="bottom-10 mx-5 h-full py-10">
       <button
-        className="
-                 py-5 rounded-md bg-gradient-to-l w-full
-                from-violet-700 to-blue-500 text-white
-                 flex  justify-center items-center font-Mulish"
+        className="loginButton px-10 flex justify-center items-center rounded-md font-Mulish font-bold text-white py-5 w-full"
         onClick={signIn}
       >
         <AiOutlineMail className="mx-5" />
-        Continue with email
+        <span>Continue with email</span>
       </button>
     </div>
   );

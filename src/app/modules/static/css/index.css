@@ -1,0 +1,104 @@
+.loginButton {
+  /* ff 3.6+ */
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(0, 129, 255, 1) 34%,
+    rgba(186, 130, 238, 1) 89%
+  );
+
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(0, 129, 255, 1) 34%,
+    rgba(186, 130, 238, 1) 89%
+  );
+
+  /* opera 11.10+ */
+  background: -o-linear-gradient(
+    90deg,
+    rgba(0, 129, 255, 1) 34%,
+    rgba(186, 130, 238, 1) 89%
+  );
+
+  /* ie 6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA82EE', endColorstr='#0081FF', GradientType=0 );
+
+  /* ie 10+ */
+  background: -ms-linear-gradient(
+    90deg,
+    rgba(0, 129, 255, 1) 34%,
+    rgba(186, 130, 238, 1) 89%
+  );
+
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    90deg,
+    rgba(0, 129, 255, 1) 34%,
+    rgba(186, 130, 238, 1) 89%
+  );
+}
+
+.loginButton-container {
+  /* ff 3.6+ */
+  background: -moz-linear-gradient(
+    162deg,
+    rgba(255, 255, 255, 0.1) 1%,
+    rgba(255, 255, 255, 0) 21%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(255, 255, 255, 0) 49%,
+    rgba(255, 255, 255, 0) 56%,
+    rgba(159, 73, 173, 0.32) 89%
+  );
+
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-linear-gradient(
+    162deg,
+    rgba(255, 255, 255, 0.1) 1%,
+    rgba(255, 255, 255, 0) 21%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(255, 255, 255, 0) 49%,
+    rgba(255, 255, 255, 0) 56%,
+    rgba(159, 73, 173, 0.32) 89%
+  );
+
+  /* opera 11.10+ */
+  background: -o-linear-gradient(
+    162deg,
+    rgba(255, 255, 255, 0.1) 1%,
+    rgba(255, 255, 255, 0) 21%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(255, 255, 255, 0) 49%,
+    rgba(255, 255, 255, 0) 56%,
+    rgba(159, 73, 173, 0.32) 89%
+  );
+
+  /* ie 6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9F49AD', endColorstr='#FFFFFF', GradientType=1 );
+
+  /* ie 10+ */
+  background: -ms-linear-gradient(
+    162deg,
+    rgba(255, 255, 255, 0.1) 1%,
+    rgba(255, 255, 255, 0) 21%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(255, 255, 255, 0) 49%,
+    rgba(255, 255, 255, 0) 56%,
+    rgba(159, 73, 173, 0.32) 89%
+  );
+
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    162deg,
+    rgba(255, 255, 255, 0.1) 1%,
+    rgba(255, 255, 255, 0) 21%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(255, 255, 255, 0) 49%,
+    rgba(255, 255, 255, 0) 56%,
+    rgba(159, 73, 173, 0.32) 89%
+  );
+}

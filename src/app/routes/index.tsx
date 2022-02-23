@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import Home from '../initials/Home';
 
 const AppRoutes = () => {
-  let routes = useRoutes([
+  const routes = useRoutes([
     {
       path: '/',
       element: <Login />,

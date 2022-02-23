@@ -1,5 +1,5 @@
 export const TO_DO_CONTRACT_ADDRESS =
-  '0xAE41060aB3fA522754DFd0e54d5bE7de220aC1F8';
+  '0xB8C72692d766Ce4d195BfC0a4e88Bc343F400ea4';
 
 export const TO_DO_CONTRACT_ABI = [
   {
@@ -38,13 +38,13 @@ export const TO_DO_CONTRACT_ABI = [
       },
       {
         internalType: 'string',
-        name: 'content',
+        name: 'title',
         type: 'string',
       },
       {
-        internalType: 'bool',
-        name: 'remind',
-        type: 'bool',
+        internalType: 'string',
+        name: 'content',
+        type: 'string',
       },
       {
         internalType: 'string',
@@ -55,6 +55,11 @@ export const TO_DO_CONTRACT_ABI = [
         internalType: 'string',
         name: 'end_time',
         type: 'string',
+      },
+      {
+        internalType: 'bool',
+        name: 'remind',
+        type: 'bool',
       },
       {
         internalType: 'bool',
@@ -69,6 +74,16 @@ export const TO_DO_CONTRACT_ABI = [
       {
         internalType: 'string',
         name: 'owner_email',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: 'date',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: 'progress',
         type: 'string',
       },
     ],
@@ -124,6 +139,11 @@ export const TO_DO_CONTRACT_ABI = [
     inputs: [
       {
         internalType: 'string',
+        name: '_title',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
         name: '_content',
         type: 'string',
       },
@@ -147,11 +167,22 @@ export const TO_DO_CONTRACT_ABI = [
         name: '_owner_email',
         type: 'string',
       },
+      {
+        internalType: 'string',
+        name: '_date',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_progress',
+        type: 'string',
+      },
     ],
     name: 'createTasks',
     outputs: [],
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',
     type: 'function',
+    payable: true,
   },
   {
     inputs: [
@@ -168,7 +199,8 @@ export const TO_DO_CONTRACT_ABI = [
     ],
     name: 'createUser',
     outputs: [],
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',
     type: 'function',
+    payable: true,
   },
 ];

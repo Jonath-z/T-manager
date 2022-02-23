@@ -102,3 +102,53 @@
     rgba(159, 73, 173, 0.32) 89%
   );
 }
+
+.home {
+  /* ff 3.6+ */
+  background: -moz-linear-gradient(
+    132deg,
+    rgba(29, 53, 87, 1) 2%,
+    rgba(5, 17, 37, 1) 37%,
+    rgba(5, 17, 37, 1) 62%,
+    rgba(29, 53, 87, 1) 100%
+  );
+
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-linear-gradient(
+    132deg,
+    rgba(29, 53, 87, 1) 2%,
+    rgba(5, 17, 37, 1) 37%,
+    rgba(5, 17, 37, 1) 62%,
+    rgba(29, 53, 87, 1) 100%
+  );
+
+  /* opera 11.10+ */
+  background: -o-linear-gradient(
+    132deg,
+    rgba(29, 53, 87, 1) 2%,
+    rgba(5, 17, 37, 1) 37%,
+    rgba(5, 17, 37, 1) 62%,
+    rgba(29, 53, 87, 1) 100%
+  );
+
+  /* ie 6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1D3557', endColorstr='#1D3557', GradientType=0 );
+
+  /* ie 10+ */
+  background: -ms-linear-gradient(
+    132deg,
+    rgba(29, 53, 87, 1) 2%,
+    rgba(5, 17, 37, 1) 37%,
+    rgba(5, 17, 37, 1) 62%,
+    rgba(29, 53, 87, 1) 100%
+  );
+
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    132deg,
+    rgba(29, 53, 87, 1) 2%,
+    rgba(5, 17, 37, 1) 37%,
+    rgba(5, 17, 37, 1) 62%,
+    rgba(29, 53, 87, 1) 100%
+  );
+}

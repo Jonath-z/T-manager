@@ -71,6 +71,7 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   };
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_CRYPTO_SECRET_KEY);
     const load = async () => {
       try {
         const account =

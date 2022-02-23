@@ -4,6 +4,8 @@ import { signInwithPopup } from '../../../../../auth';
 import { useNavigate } from 'react-router-dom';
 import web3Service from '../../../../../utils/services/web3';
 import { useUsers } from '../../../../../contexts/users';
+import { localStorageSet } from '../../../../../utils/helpers/localStorage';
+import { crypt } from '../../../../../utils/helpers/cryptoJS';
 
 const EmailButton = () => {
   const navigate = useNavigate();
@@ -11,26 +13,38 @@ const EmailButton = () => {
 
   console.log('users', users);
 
+  const generateToken = async (email: string) => {
+    const token = crypt(email);
+    localStorageSet('to_do_token_', token);
+    return token;
+  };
+
   const signIn = async () => {
     try {
       const res = await signInwithPopup();
       users.forEach(async (user) => {
         console.log('user', user);
+
         if (user.email !== res.user?.email) {
           try {
             await web3Service.createUser(
               res.user?.displayName,
               res.user?.email,
             );
-            navigate('/home');
+
+            const token = await generateToken(
+              res.user?.email as string,
+            );
+            navigate(`/home`);
           } catch (err) {
             alert('fail to login');
             throw err;
           }
-        } else {
-          navigate('/home');
-          console.log('user exist');
         }
+
+        const token = await generateToken(res.user?.email as string);
+        navigate(`/home`);
+        console.log('user exist');
       });
     } catch (err) {
       console.log(err);

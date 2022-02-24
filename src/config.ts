@@ -1,5 +1,5 @@
 export const TO_DO_CONTRACT_ADDRESS =
-  '0xB8C72692d766Ce4d195BfC0a4e88Bc343F400ea4';
+  '0xE733E13a6237Cba67956b0a7D05b687b9a8783a8';
 
 export const TO_DO_CONTRACT_ABI = [
   {
@@ -130,6 +130,11 @@ export const TO_DO_CONTRACT_ABI = [
         name: 'email',
         type: 'string',
       },
+      {
+        internalType: 'string',
+        name: 'profile',
+        type: 'string',
+      },
     ],
     stateMutability: 'view',
     type: 'function',
@@ -194,6 +199,11 @@ export const TO_DO_CONTRACT_ABI = [
       {
         internalType: 'string',
         name: '_email',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_profile',
         type: 'string',
       },
     ],

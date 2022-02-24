@@ -32,12 +32,11 @@ const createTask = async (
 const createUser = async (
   name: string | null | undefined,
   email: string | null | undefined,
+  profile: string | null | undefined,
 ) => {
   await Contract.methods
-    .createUser(name, email)
+    .createUser(name, email, profile)
     .send({ from: '0xACb1411C8e86AB26D24f54c7EfA3EB6417AcF79D' });
-  const createUser = await Contract.methods.createUser(name, email);
-  console.log('user created', createUser);
 };
 
 const web3Service = {

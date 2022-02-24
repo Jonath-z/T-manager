@@ -10,12 +10,14 @@ import web3Service from '../utils/services/web3';
 type userCxt = {
   name: string;
   email: string;
+  profile: string;
 };
 
 const initialState = [
   {
     name: 'jonath',
     email: 'jonath@gmail.com',
+    profile: 'profile',
   },
 ];
 

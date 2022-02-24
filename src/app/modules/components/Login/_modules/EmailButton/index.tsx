@@ -30,11 +30,10 @@ const EmailButton = () => {
             await web3Service.createUser(
               res.user?.displayName,
               res.user?.email,
+              res.user?.photoURL,
             );
 
-            const token = await generateToken(
-              res.user?.email as string,
-            );
+            await generateToken(res.user?.email as string);
             navigate(`/home`);
           } catch (err) {
             alert('fail to login');
@@ -42,7 +41,7 @@ const EmailButton = () => {
           }
         }
 
-        const token = await generateToken(res.user?.email as string);
+        await generateToken(res.user?.email as string);
         navigate(`/home`);
         console.log('user exist');
       });

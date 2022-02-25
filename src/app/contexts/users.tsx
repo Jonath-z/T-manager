@@ -5,7 +5,7 @@ import {
   createContext,
   FC,
 } from 'react';
-import web3Service from '../utils/services/web3';
+import web3Service from '../services/web3';
 
 type userCxt = {
   name: string;

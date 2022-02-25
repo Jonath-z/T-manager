@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineMail } from 'react-icons/ai';
 import { signInwithPopup } from '../../../../../auth';
 import { useNavigate } from 'react-router-dom';
-import web3Service from '../../../../../utils/services/web3';
+import web3Service from '../../../../../services/web3';
 import { useUsers } from '../../../../../contexts/users';
 import { localStorageSet } from '../../../../../utils/helpers/localStorage';
 import { crypt } from '../../../../../utils/helpers/cryptoJS';

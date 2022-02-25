@@ -205,3 +205,46 @@ input[type='date']::-webkit-calendar-picker-indicator {
 input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(100%);
 }
+
+#taskFrameContainer {
+  animation: sweepup 0.3s ease-in;
+}
+@keyframes sweepup {
+  0% {
+    transform: translateY(100%);
+  }
+  10% {
+    transform: translateY(90%);
+  }
+  20% {
+    transform: translateY(80%);
+  }
+  30% {
+    transform: translateY(70%);
+  }
+  50% {
+    transform: translateY(60%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  60% {
+    transform: translateY(40%);
+  }
+  70% {
+    transform: translateY(30%);
+  }
+  80% {
+    transform: translateY(20%);
+  }
+  90% {
+    transform: translateY(10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+#sweepDown {
+  touch-action: none;
+}

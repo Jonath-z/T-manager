@@ -6,7 +6,7 @@ import {
   FC,
 } from 'react';
 
-import web3Service from '../utils/services/web3';
+import web3Service from '../services/web3';
 
 const initialState = [
   {
@@ -41,6 +41,9 @@ const AccountContext = createContext<AccountCxtType>(
 );
 export const useAccount = () => useContext(AccountContext);
 
+const UpdateTasksContext = createContext<any>(null);
+export const useUpdateTasks = () => useContext(UpdateTasksContext);
+
 const TasksProvider: FC = ({ children }): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [tasks, setTasks] = useState<any[]>([]);
@@ -54,13 +57,14 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
       const tasksCount = await web3Service.Contract.methods
         .taskCount()
         .call();
+      console.log(tasksCount);
 
       for (let i = 0; i <= tasksCount; i++) {
+        console.log(i);
         const task = await web3Service.Contract.methods
           .tasks(i)
           .call();
-        setTasks([task]);
-        console.log(task);
+        setTasks([...task]);
       }
     } catch (err) {
       if (err) {
@@ -90,12 +94,19 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
     load();
   }, []);
 
+  const updateTasks = async () => {
+    await getTasks();
+    console.log(tasks);
+  };
+
   return (
     <TasksContext.Provider value={tasks}>
       <AccountContext.Provider
         value={{ account, walletConnected, failedToConnect }}
       >
-        {children}
+        <UpdateTasksContext.Provider value={updateTasks}>
+          {children}
+        </UpdateTasksContext.Provider>
       </AccountContext.Provider>
     </TasksContext.Provider>
   );

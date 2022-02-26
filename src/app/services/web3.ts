@@ -13,6 +13,8 @@ const Contract = new web3_provider.eth.Contract(
   TO_DO_CONTRACT_ADDRESS,
 );
 
+console.log(Contract);
+
 const createTask = async (
   title: string | undefined,
   content: string | undefined,
@@ -22,19 +24,35 @@ const createTask = async (
   ownerEmail: string | undefined,
   date: string | undefined,
   progress: string,
+  // id: number,
 ) => {
-  await Contract.methods
-    .createTasks(
-      title,
-      content,
-      startTime,
-      endTime,
-      ownerName,
-      ownerEmail,
-      date,
-      progress,
-    )
-    .send({ from: '0xACb1411C8e86AB26D24f54c7EfA3EB6417AcF79D' });
+  console.log(
+    title,
+    content,
+    startTime,
+    endTime,
+    ownerName,
+    ownerEmail,
+    date,
+    progress,
+    // id,
+  );
+  try {
+    await Contract.methods
+      .createTasks(
+        title,
+        content,
+        startTime,
+        endTime,
+        ownerName,
+        ownerEmail,
+        date,
+        progress,
+      )
+      .send({ from: '0xACb1411C8e86AB26D24f54c7EfA3EB6417AcF79D' });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createUser = async (

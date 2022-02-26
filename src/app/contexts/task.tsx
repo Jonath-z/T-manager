@@ -11,6 +11,7 @@ import web3Service from '../services/web3';
 const initialState = [
   {
     id: 'id',
+    title: 'title',
     content: '',
     remind: false,
     start_time: '00:00',
@@ -54,17 +55,14 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getTasks = async () => {
     try {
-      const tasksCount = await web3Service.Contract.methods
+      const count = await web3Service.Contract.methods
         .taskCount()
         .call();
-      console.log(tasksCount);
-
-      for (let i = 0; i <= tasksCount; i++) {
-        console.log(i);
+      for (let i = 0; i <= count; i++) {
         const task = await web3Service.Contract.methods
           .tasks(i)
           .call();
-        setTasks([...task]);
+        setTasks((prevState) => [...prevState, task]);
       }
     } catch (err) {
       if (err) {
@@ -75,13 +73,12 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_CRYPTO_SECRET_KEY);
+    setTasks([]);
     const load = async () => {
       try {
         const account =
           await web3Service.web3_provider.eth.requestAccounts();
         setAccount(account[0]);
-        console.log(account[0]);
         await getTasks();
         setWalletConnected(true);
         setFailedToConnect(false);
@@ -96,7 +93,6 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
 
   const updateTasks = async () => {
     await getTasks();
-    console.log(tasks);
   };
 
   return (

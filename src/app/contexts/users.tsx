@@ -11,6 +11,7 @@ type userCxt = {
   name: string;
   email: string;
   profile: string;
+  id: number;
 };
 
 const initialState = [
@@ -18,6 +19,7 @@ const initialState = [
     name: 'jonath',
     email: 'jonath@gmail.com',
     profile: 'profile',
+    id: 0,
   },
 ];
 
@@ -33,15 +35,16 @@ const UsersProvider: FC = ({ children }): JSX.Element => {
     (async () => {
       // eslint-disable-next-line no-useless-catch
       try {
-        const userCount = await web3Service.Contract.methods
+        const count = await web3Service.Contract.methods
           .userCount()
           .call();
-        for (let i = 0; i <= userCount; i++) {
-          const user = await web3Service.Contract.methods
-            .users(i)
-            .call();
-          setUsers([...users, user]);
-        }
+        if (count > 0)
+          for (let i = 0; i <= count; i++) {
+            const user = await web3Service.Contract.methods
+              .users(i)
+              .call();
+            setUsers((prevState) => [...prevState, user]);
+          }
       } catch (err) {
         throw err;
       }

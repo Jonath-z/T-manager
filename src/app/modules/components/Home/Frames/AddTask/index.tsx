@@ -11,6 +11,7 @@ interface User {
   name: string;
   email: string;
   profile: string;
+  id: number;
 }
 
 const AddTaskFrame = () => {

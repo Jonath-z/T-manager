@@ -8,6 +8,7 @@ import React, {
   FC,
   useState,
 } from 'react';
+import { useUpdateTasks } from './task';
 
 interface ISweep {
   frame: LegacyRef<HTMLDivElement> | null;
@@ -43,6 +44,7 @@ const SweepDownProvider: FC = ({ children }) => {
     setIsFrameOpened(!isFrameOpened);
   };
 
+  const update = useUpdateTasks();
   const windowHeight = window.innerHeight;
 
   const origin = useMemo(
@@ -102,6 +104,7 @@ const SweepDownProvider: FC = ({ children }) => {
 
       if (destination.y >= windowHeight) {
         setIsFrameOpened(false);
+        update();
       }
     } else {
       if (frameContainer.current !== null)

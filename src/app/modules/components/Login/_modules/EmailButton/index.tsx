@@ -13,7 +13,7 @@ const EmailButton = () => {
 
   console.log('users', users);
 
-  const generateToken = async (email: string) => {
+  const generateToken = (email: string) => {
     const token = crypt(email);
     localStorageSet('to_do_token_', token);
     return token;
@@ -33,17 +33,16 @@ const EmailButton = () => {
               res.user?.photoURL,
             );
 
-            await generateToken(res.user?.email as string);
+            generateToken(res.user?.email as string);
             navigate(`/home`);
           } catch (err) {
             alert('fail to login');
             throw err;
           }
+        } else {
+          navigate(`/home`);
+          console.log('user exist');
         }
-
-        await generateToken(res.user?.email as string);
-        navigate(`/home`);
-        console.log('user exist');
       });
     } catch (err) {
       console.log(err);

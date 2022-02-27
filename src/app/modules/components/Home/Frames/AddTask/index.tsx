@@ -23,7 +23,7 @@ const AddTaskFrame = () => {
     onTouchmouve,
     onTouchend,
   } = useSweepDown();
-  const users = useUsers();
+  const { users } = useUsers();
   const updateTasks = useUpdateTasks();
   const [user, setUser] = useState<User>();
   const token = localStorageGet('to_do_token_');
@@ -61,7 +61,7 @@ const AddTaskFrame = () => {
 
   return (
     <div
-      className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50"
+      className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-10"
       id="taskFrameContainer"
       ref={frameContainer}
     >

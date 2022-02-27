@@ -9,7 +9,7 @@ import { crypt } from '../../../../../utils/helpers/cryptoJS';
 
 const EmailButton = () => {
   const navigate = useNavigate();
-  const users = useUsers();
+  const { users } = useUsers();
 
   console.log('users', users);
 
@@ -19,33 +19,31 @@ const EmailButton = () => {
     return token;
   };
 
+  const userExists = (email: string): boolean => {
+    return users.some((user) => {
+      return user.email === email;
+    });
+  };
+
   const signIn = async () => {
     try {
       const res = await signInwithPopup();
-      users.forEach(async (user) => {
-        console.log('user', user);
 
-        if (user.email !== res.user?.email) {
-          try {
-            await web3Service.createUser(
-              res.user?.displayName,
-              res.user?.email,
-              res.user?.photoURL,
-            );
+      if (userExists(res.user?.email as string)) {
+        navigate(`/home`);
+      } else {
+        await web3Service.createUser(
+          res.user?.displayName,
+          res.user?.email,
+          res.user?.photoURL,
+        );
 
-            generateToken(res.user?.email as string);
-            navigate(`/home`);
-          } catch (err) {
-            alert('fail to login');
-            throw err;
-          }
-        } else {
-          navigate(`/home`);
-          console.log('user exist');
-        }
-      });
+        generateToken(res.user?.email as string);
+        navigate(`/home`);
+      }
     } catch (err) {
-      console.log(err);
+      alert('failed to login');
+      throw err;
     }
   };
 

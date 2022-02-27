@@ -40,6 +40,7 @@ const SweepDownProvider: FC = ({ children }) => {
   const sweepDown = useRef<HTMLDivElement>(null);
   const frameContainer = useRef<HTMLDivElement>(null);
   const [isFrameOpened, setIsFrameOpened] = useState(false);
+
   const toggleFrame = () => {
     setIsFrameOpened(!isFrameOpened);
   };

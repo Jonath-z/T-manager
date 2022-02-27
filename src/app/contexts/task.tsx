@@ -4,6 +4,7 @@ import {
   useContext,
   createContext,
   FC,
+  useCallback,
 } from 'react';
 
 import web3Service from '../services/web3';
@@ -46,13 +47,17 @@ const UpdateTasksContext = createContext<any>(null);
 export const useUpdateTasks = () => useContext(UpdateTasksContext);
 
 const TasksProvider: FC = ({ children }): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks] = useState<any[]>([]);
   const [account, setAccount] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [failedToConnect, setFailedToConnect] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const taskExists = (taskCalled: string) => {
+    return tasks.some((task) => {
+      return JSON.stringify(task) === taskCalled;
+    });
+  };
+
   const getTasks = async () => {
     try {
       const count = await web3Service.Contract.methods
@@ -62,18 +67,15 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
         const task = await web3Service.Contract.methods
           .tasks(i)
           .call();
-        setTasks((prevState) => [...prevState, task]);
+        if (!taskExists(JSON.stringify(task))) tasks.push(task);
       }
     } catch (err) {
-      if (err) {
-        setFailedToConnect(true);
-        setWalletConnected(false);
-      }
+      setFailedToConnect(true);
+      setWalletConnected(false);
     }
   };
 
   useEffect(() => {
-    setTasks([]);
     const load = async () => {
       try {
         const account =
@@ -91,16 +93,12 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
     load();
   }, []);
 
-  const updateTasks = async () => {
-    await getTasks();
-  };
-
   return (
     <TasksContext.Provider value={tasks}>
       <AccountContext.Provider
         value={{ account, walletConnected, failedToConnect }}
       >
-        <UpdateTasksContext.Provider value={updateTasks}>
+        <UpdateTasksContext.Provider value={getTasks}>
           {children}
         </UpdateTasksContext.Provider>
       </AccountContext.Provider>

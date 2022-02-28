@@ -1,6 +1,6 @@
-import { create } from 'domain';
-import React, { LegacyRef, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ITasks } from '../../../../types';
+import useIsVisibleOnScreen from '../../../../hooks/useIsVisibleOnScreen';
 
 interface IProps {
   name: string | undefined;
@@ -8,71 +8,26 @@ interface IProps {
 }
 
 const Tasks = ({ tasks }: IProps) => {
-  const targetRef = useRef<LegacyRef<HTMLDivElement> | undefined>();
-  // console.log(targetRef.current?.valueOf());
-  const tasksDiv = document.querySelectorAll('.tasks');
-  console.log(tasksDiv[0]);
-
-  // let prevRatio = 0.0;
-
-  // const createObserver = () => {
-  //   const options = {
-  //     root: null,
-  //     rootMargin: '0px',
-  //     threshold: buildThresholdList(),
-  //   };
-  //   const observer = new IntersectionObserver(
-  //     handleIntersect,
-  //     options,
-  //   );
-  //   observer.observe(targetRef.current as unknown as Element);
-  // };
-
-  // function buildThresholdList() {
-  //   const thresholds = [];
-  //   const numSteps = 20;
-
-  //   for (let i = 1.0; i <= numSteps; i++) {
-  //     const ratio = i / numSteps;
-  //     thresholds.push(ratio);
-  //   }
-
-  //   thresholds.push(0);
-  //   return thresholds;
-  // }
-
-  // function handleIntersect(
-  //   entries: any[] | NodeListOf<Element>,
-  //   observer: any,
-  // ) {
-  //   entries = tasksDiv;
-  //   entries.forEach((entry) => {
-  //     console.log(entry.isIntersecting);
-  //     // console.log(observer);
-  //     // if (entry.intersectionRatio > prevRatio) {
-  //     //   console.log(entry);
-  //     // } else {
-  //     //   console.log(entry);
-  //     // }
-
-  //     // prevRatio = entry.intersectionRatio;
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   createObserver();
-  // }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  useIsVisibleOnScreen(
+    {
+      root: ref.current as HTMLDivElement,
+      rootMargin: '0px',
+      threshold: 1,
+    },
+    ref.current?.childNodes as NodeList,
+  );
 
   return (
     <div
-      className="px-8 mt-5 absolute bottom-0 left-0 right-0 top-44 overflow-y-scroll"
-      ref={targetRef as React.RefObject<HTMLDivElement>}
+      ref={ref}
+      className="root px-8 mt-5 absolute bottom-0 left-0 right-0 top-1/2 overflow-y-scroll py-5"
     >
       {tasks.map((userTask, index) => {
         return (
           <div
             key={`index_${index}`}
-            className="tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center"
+            className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center  bg-opacity-70`}
           >
             <input
               type="checkbox"

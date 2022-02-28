@@ -4,7 +4,6 @@ import {
   useContext,
   createContext,
   FC,
-  useCallback,
 } from 'react';
 
 import web3Service from '../services/web3';
@@ -20,6 +19,7 @@ const initialState = [
     completed: false,
     owner_name: '',
     owner_email: '',
+    date: '',
   },
 ];
 

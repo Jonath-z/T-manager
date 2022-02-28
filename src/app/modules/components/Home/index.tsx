@@ -8,6 +8,7 @@ import AddTaskFrame from './Frames/AddTask';
 import { useSweepDown } from '../../../contexts/sweep';
 import Tasks from './Task';
 import { useTasks } from '../../../contexts/task';
+import Progress from './Progress';
 
 const HomePage = () => {
   const { users } = useUsers();
@@ -32,8 +33,9 @@ const HomePage = () => {
       />
       <SearchBar />
       <AddButton onClick={toggleFrame} />
+      <Progress userTasks={userTasks} />
       <p className="text-white text-2xl px-8 font-Mulish font-extrabold py-1">
-        Tasks
+        Tasks ({userTasks.length})
       </p>
       <Tasks tasks={userTasks} name={undefined} />
       {isFrameOpened && <AddTaskFrame />}

@@ -8,4 +8,5 @@ export interface ITasks {
   completed: boolean;
   owner_name: string;
   owner_email: string;
+  date: string;
 }

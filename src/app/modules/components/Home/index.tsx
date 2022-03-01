@@ -25,6 +25,19 @@ const HomePage = () => {
     (user) => user.email === email,
   );
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 101).toString().substring(1);
+    const day = (date.getDate() + 100).toString().substring(1);
+    return year + '-' + month + '-' + day;
+  };
+
+  const toDayTasks = userTasks.filter(
+    (task) => task.date === formatDate(new Date()),
+  );
+
+  console.log(toDayTasks);
+
   return (
     <div className="h-full absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br home">
       <Header
@@ -35,9 +48,15 @@ const HomePage = () => {
       <AddButton onClick={toggleFrame} />
       <Progress userTasks={userTasks} />
       <p className="text-white text-2xl px-8 font-Mulish font-extrabold py-1">
-        Tasks ({userTasks.length})
+        Task
+        {`${
+          toDayTasks.length === 1 || toDayTasks.length === 0
+            ? ''
+            : 's'
+        }`}{' '}
+        ({toDayTasks.length})
       </p>
-      <Tasks tasks={userTasks} name={undefined} />
+      <Tasks tasks={toDayTasks} name={undefined} />
       {isFrameOpened && <AddTaskFrame />}
     </div>
   );

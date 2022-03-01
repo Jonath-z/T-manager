@@ -40,7 +40,7 @@ const useProgress = (userTasks: ITasks[]) => {
   sortedByDateRemovedDuplicated.forEach((task) => {
     task.task.forEach((currentTask, index) => {
       if (currentTask.completed) {
-        const progress = ((index + 1) * 100) / task.task.length;
+        const progress = (index * 100) / task.task.length;
         task.progress = progress;
       }
     });

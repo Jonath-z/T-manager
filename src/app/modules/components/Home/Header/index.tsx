@@ -8,7 +8,7 @@ interface IProps {
 
 const Header = ({ name, profile }: IProps) => {
   const date = new Date();
-  const days = ['Mon', 'Tue', 'wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Sun', 'Mon', 'Tue', 'wed', 'Thu', 'Fri', 'Sat'];
   console.log(days[date.getDay()], date.getDay());
   return (
     <div className="py-5 flex justify-around items-center">
@@ -18,7 +18,8 @@ const Header = ({ name, profile }: IProps) => {
           Hi {name}
         </span>
         <span className="font-Mulish font-bold text-white">
-          {days[date.getDay()]} {date.getDate()} {''}
+          {days[date.getDay()]} {date.getDate()}-
+          {(date.getMonth() + 101).toString().substring(1)}-
           {date.getFullYear()}
         </span>
       </p>

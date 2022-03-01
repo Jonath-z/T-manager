@@ -1,5 +1,5 @@
 export const TO_DO_CONTRACT_ADDRESS =
-  '0x3DA30178e2529e4F02D4D5Fa6eA014A15A33e2f9';
+  '0x523dc0323D9380db201DE5E891A9271ABc568890';
 
 export const TO_DO_CONTRACT_ABI = [
   {
@@ -208,6 +208,20 @@ export const TO_DO_CONTRACT_ABI = [
       },
     ],
     name: 'createUser',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+    payable: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_task_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateTaskStatus',
     outputs: [],
     stateMutability: 'payable',
     type: 'function',

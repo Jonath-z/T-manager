@@ -1,4 +1,14 @@
-.loginButton {
+.progressContainer {
+  width: 80vw;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+.progressComponent {
+  width: 80vw;
+  scroll-snap-align: center;
+}
+.loginButton,
+.progressBar {
   /* ff 3.6+ */
   background: -moz-linear-gradient(
     90deg,
@@ -158,7 +168,8 @@
   );
 }
 
-.addButton {
+.addButton,
+.progressComponent {
   /* ff 3.6+ */
   background: -moz-linear-gradient(
     139deg,

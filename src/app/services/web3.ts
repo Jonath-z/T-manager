@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import { TO_DO_CONTRACT_ADDRESS } from '../../config';
+import { useAccount } from '../contexts/task';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ABI = require('../../config');
@@ -65,11 +66,18 @@ const createUser = async (
     .send({ from: '0xACb1411C8e86AB26D24f54c7EfA3EB6417AcF79D' });
 };
 
+const updateTaskStatus = async (taskID: number) => {
+  await Contract.methods
+    .updateTaskStatus(taskID)
+    .send({ from: '0xACb1411C8e86AB26D24f54c7EfA3EB6417AcF79D' });
+};
+
 const web3Service = {
   createTask,
   createUser,
   web3_provider,
   Contract,
+  updateTaskStatus,
 };
 
 export default web3Service;

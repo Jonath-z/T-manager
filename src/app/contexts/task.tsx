@@ -6,22 +6,31 @@ import {
   FC,
 } from 'react';
 
-import web3Service from '../services/web3';
+import useWeb3 from '../hooks/useWeb3';
+import { ITasks } from '../types';
 
-const initialState = [
-  {
-    id: 'id',
-    title: 'title',
-    content: '',
-    remind: false,
-    start_time: '00:00',
-    end_time: '00:00',
-    completed: false,
-    owner_name: '',
-    owner_email: '',
-    date: '',
-  },
-];
+const initialState = {
+  tasks: [
+    {
+      id: 'id',
+      title: 'title',
+      content: '',
+      remind: false,
+      start_time: '00:00',
+      end_time: '00:00',
+      completed: false,
+      owner_name: '',
+      owner_email: '',
+      date: '',
+    },
+  ],
+  callback: async () => undefined,
+};
+
+type TaskCxtType = {
+  tasks: ITasks[];
+  callback: () => Promise<void>;
+};
 
 type AccountCxtType = {
   account: string;
@@ -35,7 +44,7 @@ const defaultAccountCxtData: AccountCxtType = {
   failedToConnect: false,
 };
 
-const TasksContext = createContext(initialState);
+const TasksContext = createContext<TaskCxtType>(initialState);
 export const useTasks = () => useContext(TasksContext);
 
 const AccountContext = createContext<AccountCxtType>(
@@ -43,32 +52,23 @@ const AccountContext = createContext<AccountCxtType>(
 );
 export const useAccount = () => useContext(AccountContext);
 
-const UpdateTasksContext = createContext<any>(null);
-export const useUpdateTasks = () => useContext(UpdateTasksContext);
-
 const TasksProvider: FC = ({ children }): JSX.Element => {
-  const [tasks] = useState<any[]>([]);
+  const [tasks, setTask] = useState<any[]>([]);
   const [account, setAccount] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [failedToConnect, setFailedToConnect] = useState(false);
 
-  const taskExists = (taskCalled: string) => {
-    return tasks.some((task) => {
-      return JSON.stringify(task) === taskCalled;
-    });
-  };
+  const { web3_provider, Contract } = useWeb3();
 
   const getTasks = async () => {
     try {
-      const count = await web3Service.Contract.methods
-        .taskCount()
-        .call();
+      const count = await Contract.methods.taskCount().call();
+      const stateMemory = [];
       for (let i = 0; i <= count; i++) {
-        const task = await web3Service.Contract.methods
-          .tasks(i)
-          .call();
-        if (!taskExists(JSON.stringify(task))) tasks.push(task);
+        const task = await Contract.methods.tasks(i).call();
+        stateMemory.push(task);
       }
+      setTask(stateMemory);
     } catch (err) {
       setFailedToConnect(true);
       setWalletConnected(false);
@@ -76,10 +76,9 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   };
 
   useEffect(() => {
-    const load = async () => {
+    (async () => {
       try {
-        const account =
-          await web3Service.web3_provider.eth.requestAccounts();
+        const account = await web3_provider.eth.requestAccounts();
         setAccount(account[0]);
         await getTasks();
         setWalletConnected(true);
@@ -89,18 +88,21 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
         setFailedToConnect(true);
         setWalletConnected(false);
       }
-    };
-    load();
+    })();
+    return setTask([]);
   }, []);
 
+  const callback = async () => {
+    setTask([]);
+    await getTasks();
+  };
+
   return (
-    <TasksContext.Provider value={tasks}>
+    <TasksContext.Provider value={{ tasks, callback }}>
       <AccountContext.Provider
         value={{ account, walletConnected, failedToConnect }}
       >
-        <UpdateTasksContext.Provider value={getTasks}>
-          {children}
-        </UpdateTasksContext.Provider>
+        {children}
       </AccountContext.Provider>
     </TasksContext.Provider>
   );

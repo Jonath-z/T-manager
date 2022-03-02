@@ -10,3 +10,9 @@ export interface ITasks {
   owner_email: string;
   date: string;
 }
+
+export interface IUser {
+  name: string;
+  email: string;
+  id: string;
+}

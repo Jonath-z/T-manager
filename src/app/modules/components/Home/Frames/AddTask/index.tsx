@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineMinus } from 'react-icons/ai';
 import { useSweepDown } from '../../../../../contexts/sweep';
 import { useUsers } from '../../../../../contexts/users';
-import web3Service from '../../../../../services/web3';
 import { localStorageGet } from '../../../../../utils/helpers/localStorage';
 import { decrypt } from '../../../../../utils/helpers/cryptoJS';
-import { useUpdateTasks } from '../../../../../contexts/task';
+import useWeb3 from '../../../../../hooks/useWeb3';
+import { useTasks } from '../../../../../contexts/task';
 
 interface User {
   name: string;
@@ -24,7 +24,8 @@ const AddTaskFrame = () => {
     onTouchend,
   } = useSweepDown();
   const { users } = useUsers();
-  const updateTasks = useUpdateTasks();
+  const { callback } = useTasks();
+  const { createTask } = useWeb3();
   const [user, setUser] = useState<User>();
   const token = localStorageGet('to_do_token_');
 
@@ -46,7 +47,7 @@ const AddTaskFrame = () => {
   const createNewTask = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.currentTarget.getElementsByTagName('input');
-    await web3Service.createTask(
+    await createTask(
       target.namedItem('title')?.value,
       target.namedItem('content')?.value,
       target.namedItem('startTime')?.value,
@@ -56,7 +57,7 @@ const AddTaskFrame = () => {
       target.namedItem('date')?.value,
       '0',
     );
-    await updateTasks();
+    callback();
   };
 
   return (

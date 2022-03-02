@@ -2,15 +2,15 @@ import React from 'react';
 import { AiOutlineMail } from 'react-icons/ai';
 import { signInwithPopup } from '../../../../../auth';
 import { useNavigate } from 'react-router-dom';
-import web3Service from '../../../../../services/web3';
 import { useUsers } from '../../../../../contexts/users';
 import { localStorageSet } from '../../../../../utils/helpers/localStorage';
 import { crypt } from '../../../../../utils/helpers/cryptoJS';
+import useWeb3 from '../../../../../hooks/useWeb3';
 
 const EmailButton = () => {
   const navigate = useNavigate();
   const { users } = useUsers();
-
+  const { createUser } = useWeb3();
   console.log('users', users);
 
   const generateToken = (email: string) => {
@@ -32,7 +32,7 @@ const EmailButton = () => {
       if (userExists(res.user?.email as string)) {
         navigate(`/home`);
       } else {
-        await web3Service.createUser(
+        await createUser(
           res.user?.displayName,
           res.user?.email,
           res.user?.photoURL,

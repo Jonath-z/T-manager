@@ -4,9 +4,8 @@ import {
   useContext,
   createContext,
   FC,
-  useCallback,
 } from 'react';
-import web3Service from '../services/web3';
+import useWeb3 from '../hooks/useWeb3';
 
 interface IUser {
   name: string;
@@ -27,26 +26,19 @@ const UserContext = createContext<userType>(defaultContext);
 export const useUsers = () => useContext(UserContext);
 
 const UsersProvider: FC = ({ children }): JSX.Element => {
-  const [users] = useState<IUser[]>([]);
-
-  const userExists = (userCalled: string) => {
-    return users.some((user) => {
-      return JSON.stringify(user) === userCalled;
-    });
-  };
+  const [users, setUsers] = useState<IUser[]>([]);
+  const { Contract } = useWeb3();
 
   useEffect(() => {
     const getUsers = async () => {
-      const count = await web3Service.Contract.methods
-        .userCount()
-        .call();
+      const count = await Contract.methods.userCount().call();
+      const stateMemory = [];
       if (count > 0)
         for (let i = 0; i <= count; i++) {
-          const user = await web3Service.Contract.methods
-            .users(i)
-            .call();
-          if (!userExists(JSON.stringify(user))) users.push(user);
+          const user = await Contract.methods.users(i).call();
+          stateMemory.push(user);
         }
+      setUsers(stateMemory);
     };
     getUsers();
   }, []);

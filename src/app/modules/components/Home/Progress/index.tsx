@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
-import useProgress from '../../../../hooks/useProgress';
+import React, { useEffect, useState, useMemo } from 'react';
+// import useProgress from '../../../../hooks/useProgress';
 import { useTasks } from '../../../../contexts/task';
 import { BiRefresh } from 'react-icons/bi';
+import { ITasks } from '../../../../types';
+import { localStorageGet } from '../../../../utils/helpers/localStorage';
+import { decrypt } from '../../../../utils/helpers/cryptoJS';
+import { useProgress } from '../../../../contexts/progress';
 
 const Progress = () => {
-  const { tasks, callback } = useTasks();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { updateProgress, progressArchive } = useProgress(tasks);
 
-  const refresh = () => {
-    (async () => {
-      setIsRefreshing(true);
-      // await callback();
-      updateProgress();
-      setIsRefreshing(false);
-    })();
-  };
+  const progress = useProgress();
+  console.log(progress);
 
   return (
     <div>
@@ -23,11 +19,11 @@ const Progress = () => {
         Progress
         <BiRefresh
           className={isRefreshing ? 'animate-spin' : 'animate-none'}
-          onClick={refresh}
+          // onClick={refresh}
         />
       </p>
       <div className="flex flex-row progressContainer m-auto py-5">
-        {progressArchive
+        {progress
           .map((day, index) => {
             return (
               <div

@@ -27,16 +27,16 @@ const initialState = {
   callback: async () => undefined,
 };
 
-type TaskCxtType = {
+interface TaskCxtType {
   tasks: ITasks[];
   callback: () => Promise<void>;
-};
+}
 
-type AccountCxtType = {
+interface AccountCxtType {
   account: string;
   walletConnected: boolean;
   failedToConnect: boolean;
-};
+}
 
 const defaultAccountCxtData: AccountCxtType = {
   account: '',
@@ -53,7 +53,7 @@ const AccountContext = createContext<AccountCxtType>(
 export const useAccount = () => useContext(AccountContext);
 
 const TasksProvider: FC = ({ children }): JSX.Element => {
-  const [tasks, setTask] = useState<any[]>([]);
+  const [tasks, setTask] = useState<ITasks[]>([]);
   const [account, setAccount] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [failedToConnect, setFailedToConnect] = useState(false);

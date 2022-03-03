@@ -1,11 +1,14 @@
 import HomePage from '../../modules/components/Home';
-import SweepDownProvider from '../../contexts/sweep';
+import SweepDownProvider from '../../contexts/sweepDown';
+import ProgressProvider from '../../contexts/progress';
 
 const Home = () => {
   return (
-    <SweepDownProvider>
-      <HomePage />
-    </SweepDownProvider>
+    <ProgressProvider>
+      <SweepDownProvider>
+        <HomePage />
+      </SweepDownProvider>
+    </ProgressProvider>
   );
 };
 

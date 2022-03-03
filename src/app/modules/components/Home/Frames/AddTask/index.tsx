@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMinus } from 'react-icons/ai';
-import { useSweepDown } from '../../../../../contexts/sweep';
+import { useSweepDown } from '../../../../../contexts/sweepDown';
 import { useUsers } from '../../../../../contexts/users';
 import { localStorageGet } from '../../../../../utils/helpers/localStorage';
 import { decrypt } from '../../../../../utils/helpers/cryptoJS';

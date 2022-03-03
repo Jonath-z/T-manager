@@ -1,13 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import useIsVisibleOnScreen from '../../../../hooks/useIsVisibleOnScreen';
 import { useTasks } from '../../../../contexts/task';
 import { decrypt } from '../../../../utils/helpers/cryptoJS';
 import { localStorageGet } from '../../../../utils/helpers/localStorage';
 import useWeb3 from '../../../../hooks/useWeb3';
+import { useLongPress } from 'use-long-press';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+
+const token = localStorageGet('to_do_token_');
+const email = decrypt(token as string);
 
 const Tasks = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { tasks, callback } = useTasks();
+  const [isUnroll, setIsUnroll] = useState(false);
+  const { tasks } = useTasks();
   const { updateTaskStatus } = useWeb3();
   useIsVisibleOnScreen(
     {
@@ -17,8 +23,6 @@ const Tasks = () => {
     },
     ref.current?.childNodes as NodeList,
   );
-  const token = localStorageGet('to_do_token_');
-  const email = decrypt(token as string);
 
   const userTasks = tasks.filter(
     (task) => task.owner_email === email,
@@ -38,8 +42,19 @@ const Tasks = () => {
   const toggleTaskStatus = (e: any) => {
     (async () => {
       await updateTaskStatus(e.target.value);
-      callback();
     })();
+  };
+
+  const callback = useCallback(() => {
+    console.log('long pressed');
+  }, []);
+
+  const longPress = useLongPress(callback, {
+    threshold: 500,
+  });
+
+  const toggleUnrollTask = () => {
+    setIsUnroll(!isUnroll);
   };
 
   return (
@@ -51,14 +66,12 @@ const Tasks = () => {
           : 's'}
         ({toDayTasks.length})
       </p>
-      <div
-        ref={ref}
-        className="root px-8 mt-9 absolute bottom-0 left-0 right-0 top-1/2 overflow-y-scroll py-1 pb-10"
-      >
+      <div className="root px-8 mt-9 absolute bottom-0 left-0 right-0 top-1/2 overflow-y-scroll py-1 pb-10">
         {toDayTasks
           .map((userTask, index) => {
             return (
               <div
+                {...longPress}
                 key={`index_${index}`}
                 className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center  bg-opacity-70`}
               >
@@ -76,7 +89,17 @@ const Tasks = () => {
                 >
                   {userTask.title}
                   <span className="text-xs text-slate-200">
-                    {userTask.start_time} up to {userTask.end_time}
+                    {isUnroll ? (
+                      <IoIosArrowUp
+                        className="text-xl"
+                        onClick={toggleUnrollTask}
+                      />
+                    ) : (
+                      <IoIosArrowDown
+                        className="text-xl"
+                        onClick={toggleUnrollTask}
+                      />
+                    )}
                   </span>
                 </label>
               </div>

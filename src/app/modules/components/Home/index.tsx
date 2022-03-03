@@ -5,7 +5,7 @@ import { decrypt } from '../../../utils/helpers/cryptoJS';
 import { useUsers } from '../../../contexts/users';
 import { localStorageGet } from '../../../utils/helpers/localStorage';
 import AddTaskFrame from './Frames/AddTask';
-import { useSweepDown } from '../../../contexts/sweep';
+import { useSweepDown } from '../../../contexts/sweepDown';
 import Progress from './Progress';
 import Task from './Task';
 

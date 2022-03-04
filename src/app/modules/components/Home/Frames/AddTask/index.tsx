@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMinus } from 'react-icons/ai';
+import TextareaAutosize from 'react-textarea-autosize';
 import { useSweepDown } from '../../../../../contexts/sweepDown';
 import { useUsers } from '../../../../../contexts/users';
 import { localStorageGet } from '../../../../../utils/helpers/localStorage';
@@ -24,9 +25,10 @@ const AddTaskFrame = () => {
     onTouchend,
   } = useSweepDown();
   const { users } = useUsers();
-  const { callback } = useTasks();
+  const { updateAfterAddTask } = useTasks();
   const { createTask } = useWeb3();
   const [user, setUser] = useState<User>();
+  const [textareaValue, setTextareaValue] = useState('');
   const token = localStorageGet('to_do_token_');
 
   const getUserByEmail = (email: string) => {
@@ -49,7 +51,8 @@ const AddTaskFrame = () => {
     const target = e.currentTarget.getElementsByTagName('input');
     await createTask(
       target.namedItem('title')?.value,
-      target.namedItem('content')?.value,
+      // target.namedItem('content')?.value,
+      textareaValue,
       target.namedItem('startTime')?.value,
       target.namedItem('endTime')?.value,
       user?.name,
@@ -57,7 +60,12 @@ const AddTaskFrame = () => {
       target.namedItem('date')?.value,
       '0',
     );
-    callback();
+    await updateAfterAddTask();
+  };
+
+  const getTextareaValue = (e: any) => {
+    setTextareaValue(e.target.value);
+    console.log(e.target.value);
   };
 
   return (
@@ -96,13 +104,20 @@ const AddTaskFrame = () => {
             <p className="text-white font-Mulish px-5 pt-3">
               Content
             </p>
-            <input
+            <TextareaAutosize
+              name="content"
+              onChange={getTextareaValue}
+              required
+              placeholder="Task content"
+              className="py-2 ml-5 bg-transparent  resize-none border-b border-slate-500 outline-none text-gray-200 w-11/12"
+            />
+            {/* <input
               type="text"
               name="content"
               required
               placeholder="Task content"
               className="py-2 ml-5 bg-transparent  resize-none border-b border-slate-500 outline-none text-gray-200 w-11/12"
-            />
+            /> */}
             <p className="text-white font-Mulish px-5 pt-2">Date</p>
             <input
               type="date"

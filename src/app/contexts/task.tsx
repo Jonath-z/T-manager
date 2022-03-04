@@ -4,6 +4,7 @@ import {
   useContext,
   createContext,
   FC,
+  useCallback,
 } from 'react';
 
 import useWeb3 from '../hooks/useWeb3';
@@ -12,7 +13,7 @@ import { ITasks } from '../types';
 const initialState = {
   tasks: [
     {
-      id: 'id',
+      id: -1,
       title: 'title',
       content: '',
       remind: false,
@@ -24,12 +25,16 @@ const initialState = {
       date: '',
     },
   ],
-  callback: async () => undefined,
+  toggleTaskStatus: () => null,
+  deleteTaskInContext: () => null,
+  updateAfterAddTask: async () => undefined,
 };
 
 interface TaskCxtType {
   tasks: ITasks[];
-  callback: () => Promise<void>;
+  toggleTaskStatus: (_task_id: number) => void;
+  deleteTaskInContext: (_task_id: number) => void;
+  updateAfterAddTask: () => Promise<void>;
 }
 
 interface AccountCxtType {
@@ -53,7 +58,7 @@ const AccountContext = createContext<AccountCxtType>(
 export const useAccount = () => useContext(AccountContext);
 
 const TasksProvider: FC = ({ children }): JSX.Element => {
-  const [tasks, setTask] = useState<ITasks[]>([]);
+  const [tasks, setTasks] = useState<ITasks[]>([]);
   const [account, setAccount] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [failedToConnect, setFailedToConnect] = useState(false);
@@ -63,12 +68,13 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   const getTasks = async () => {
     try {
       const count = await Contract.methods.taskCount().call();
-      const stateMemory = [];
+      const taskMemory = [];
       for (let i = 0; i <= count; i++) {
         const task = await Contract.methods.tasks(i).call();
-        stateMemory.push(task);
+        taskMemory.push(task);
       }
-      setTask(stateMemory);
+      setTasks(taskMemory);
+      return taskMemory;
     } catch (err) {
       setFailedToConnect(true);
       setWalletConnected(false);
@@ -89,16 +95,40 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
         setWalletConnected(false);
       }
     })();
-    return setTask([]);
+    return setTasks([]);
   }, []);
 
-  const callback = async () => {
-    setTask([]);
+  const toggleTaskStatus = (_task_id: number) => {
+    setTasks((prevTasks) => {
+      const updates = [...prevTasks];
+      if (updates.length !== 0)
+        updates.map((task) => {
+          if (task.id === _task_id) task.completed = !task.completed;
+        });
+      return updates;
+    });
+  };
+
+  const deleteTaskInContext = (_task_id: number) => {
+    setTasks((prevTasks) => {
+      const state = [...prevTasks];
+      return state.filter((task) => task.id !== _task_id);
+    });
+  };
+
+  const updateAfterAddTask = async () => {
     await getTasks();
   };
 
   return (
-    <TasksContext.Provider value={{ tasks, callback }}>
+    <TasksContext.Provider
+      value={{
+        tasks,
+        toggleTaskStatus,
+        updateAfterAddTask,
+        deleteTaskInContext,
+      }}
+    >
       <AccountContext.Provider
         value={{ account, walletConnected, failedToConnect }}
       >

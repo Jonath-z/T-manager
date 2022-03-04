@@ -21,7 +21,7 @@ const initialState: ProgressCxt[] = [
     date: '',
     task: [
       {
-        id: 'id',
+        id: -1,
         title: 'title',
         content: '',
         remind: false,
@@ -41,9 +41,8 @@ const Progress = createContext<ProgressCxt[]>(initialState);
 export const useProgress = () => useContext(Progress);
 
 const ProgressProvider = ({ children }: any) => {
-  const { tasks, callback } = useTasks();
-  console.log(tasks);
-  // const dateMemo = useState<string>();
+  const { tasks } = useTasks();
+
   const dateMemo = useMemo((): string[] => {
     return [];
   }, []);
@@ -51,11 +50,8 @@ const ProgressProvider = ({ children }: any) => {
   const sortedByDate = useMemo((): ProgressCxt[] => {
     return [];
   }, []);
-  // const [sortedByDate] = useState<ISortedByDate[]>([]);
+
   const [userTasks, setUserTasks] = useState<ITasks[]>([]);
-  const [progressArchives, setProgressArchives] = useState<
-    ProgressCxt[]
-  >([]);
 
   const token = localStorageGet('to_do_token_');
   const email = decrypt(token as string);
@@ -87,43 +83,20 @@ const ProgressProvider = ({ children }: any) => {
   });
 
   ////////////////// remove diplicated data ////////////////////
-  useEffect(() => {
-    setProgressArchives(
-      sortedByDate.filter(
-        (data, index, self) =>
-          index ===
-          self.findIndex((element) => element.date === data.date),
-      ),
-    );
-  }, [dateMemo, sortedByDate]);
-
+  const sortedByDateDiplicateRemoved = sortedByDate.filter(
+    (data, index, self) =>
+      index ===
+      self.findIndex((element) => element.date === data.date),
+  );
   ///////////////// update progress //////////////////
-  useEffect(() => {
-    progressArchives.forEach((task) => {
-      const completedTask = task.task.filter(
-        (task) => task.completed,
-      );
-      const progress =
-        (completedTask.length * 100) / task.task.length;
-      task.progress = Math.floor(progress);
-    });
-  }, [
-    progressArchives,
-    tasks,
-    userTasks,
-    dateMemo,
-    setProgressArchives,
-    sortedByDate,
-  ]);
-
-  //   updateProgress();
-  console.log(progressArchives);
-  useEffect(() => {
-    (async () => await callback())();
-  }, []);
+  sortedByDateDiplicateRemoved.forEach((task) => {
+    const completedTask = task.task.filter((task) => task.completed);
+    const progress = (completedTask.length * 100) / task.task.length;
+    task.progress = Math.floor(progress);
+  });
 
   return (
-    <Progress.Provider value={progressArchives}>
+    <Progress.Provider value={sortedByDateDiplicateRemoved}>
       {children}
     </Progress.Provider>
   );

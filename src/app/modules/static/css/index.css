@@ -113,7 +113,8 @@
   );
 }
 
-.home {
+.home,
+.taskDetailsContainer {
   /* ff 3.6+ */
   background: -moz-linear-gradient(
     132deg,

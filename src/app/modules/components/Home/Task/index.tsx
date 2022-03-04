@@ -1,28 +1,18 @@
-import React, { useCallback, useRef, useState } from 'react';
-import useIsVisibleOnScreen from '../../../../hooks/useIsVisibleOnScreen';
+import React, { useState } from 'react';
 import { useTasks } from '../../../../contexts/task';
+import { ITasks } from '../../../../types';
 import { decrypt } from '../../../../utils/helpers/cryptoJS';
 import { localStorageGet } from '../../../../utils/helpers/localStorage';
-import useWeb3 from '../../../../hooks/useWeb3';
-import { useLongPress } from 'use-long-press';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import TaskDetails from './TaskDetails';
+import TaskContainer from './TasksContainer';
 
 const token = localStorageGet('to_do_token_');
 const email = decrypt(token as string);
 
 const Tasks = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isUnroll, setIsUnroll] = useState(false);
+  const [isViewTask, setIsViewTask] = useState(false);
+  const [taskDetails, setTaskDetails] = useState<ITasks>();
   const { tasks } = useTasks();
-  const { updateTaskStatus } = useWeb3();
-  useIsVisibleOnScreen(
-    {
-      root: ref.current as HTMLDivElement,
-      rootMargin: '0px',
-      threshold: 1,
-    },
-    ref.current?.childNodes as NodeList,
-  );
 
   const userTasks = tasks.filter(
     (task) => task.owner_email === email,
@@ -39,22 +29,15 @@ const Tasks = () => {
     (task) => task.date === formatDate(new Date()),
   );
 
-  const toggleTaskStatus = (e: any) => {
-    (async () => {
-      await updateTaskStatus(e.target.value);
-    })();
+  const assignTaskData = (e: any) => {
+    const viewedTask = JSON.parse(e.target.getAttribute('data-task'));
+    setTaskDetails(viewedTask);
   };
 
-  const callback = useCallback(() => {
-    console.log('long pressed');
-  }, []);
-
-  const longPress = useLongPress(callback, {
-    threshold: 500,
-  });
-
-  const toggleUnrollTask = () => {
-    setIsUnroll(!isUnroll);
+  const toggleTaskDetails = () => {
+    console.log(isViewTask);
+    console.log('toogled');
+    setIsViewTask(!isViewTask);
   };
 
   return (
@@ -66,49 +49,21 @@ const Tasks = () => {
           : 's'}
         ({toDayTasks.length})
       </p>
-      <div className="root px-8 mt-9 absolute bottom-0 left-0 right-0 top-1/2 overflow-y-scroll py-1 pb-10">
-        {toDayTasks
-          .map((userTask, index) => {
-            return (
-              <div
-                {...longPress}
-                key={`index_${index}`}
-                className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center  bg-opacity-70`}
-              >
-                <input
-                  type="checkbox"
-                  value={userTask.id}
-                  onChange={toggleTaskStatus}
-                  name="task"
-                  className="form-checkbox rounded-full outline-hidden text-[#00B4D8]"
-                  checked={userTask.completed}
-                />
-                <label
-                  htmlFor="task"
-                  className="pl-2 text-white font-Mulish inline-flex justify-between items-center w-full"
-                >
-                  {userTask.title}
-                  <span className="text-xs text-slate-200">
-                    {isUnroll ? (
-                      <IoIosArrowUp
-                        className="text-xl"
-                        onClick={toggleUnrollTask}
-                      />
-                    ) : (
-                      <IoIosArrowDown
-                        className="text-xl"
-                        onClick={toggleUnrollTask}
-                      />
-                    )}
-                  </span>
-                </label>
-              </div>
-            );
-          })
-          .reverse()}
-      </div>
+      {isViewTask && (
+        <TaskDetails
+          task={taskDetails}
+          toggleTaskDetails={toggleTaskDetails}
+        />
+      )}
+      <TaskContainer
+        toggleTaskDetails={(e) => {
+          assignTaskData(e);
+          setIsViewTask(!isViewTask);
+        }}
+        toDayTasks={toDayTasks}
+      />
     </>
   );
 };
 
-export default Tasks;
+export default React.memo(Tasks);

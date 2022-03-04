@@ -63,12 +63,17 @@ const useWeb3 = () => {
       .send({ from: account });
   };
 
+  const deleteTask = async (taskID: number) => {
+    await Contract.methods.deleteTask(taskID).send({ from: account });
+  };
+
   return {
     createTask,
     createUser,
     web3_provider,
     Contract,
     updateTaskStatus,
+    deleteTask,
   };
 };
 

@@ -51,7 +51,6 @@ const AddTaskFrame = () => {
     const target = e.currentTarget.getElementsByTagName('input');
     await createTask(
       target.namedItem('title')?.value,
-      // target.namedItem('content')?.value,
       textareaValue,
       target.namedItem('startTime')?.value,
       target.namedItem('endTime')?.value,
@@ -111,13 +110,6 @@ const AddTaskFrame = () => {
               placeholder="Task content"
               className="py-2 ml-5 bg-transparent  resize-none border-b border-slate-500 outline-none text-gray-200 w-11/12"
             />
-            {/* <input
-              type="text"
-              name="content"
-              required
-              placeholder="Task content"
-              className="py-2 ml-5 bg-transparent  resize-none border-b border-slate-500 outline-none text-gray-200 w-11/12"
-            /> */}
             <p className="text-white font-Mulish px-5 pt-2">Date</p>
             <input
               type="date"

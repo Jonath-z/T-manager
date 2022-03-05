@@ -32,8 +32,8 @@ const TaskDetails = ({ task, toggleTaskDetails }: IProps) => {
         </p>
         <button
           className="bg-red-600 py-2 w-full rounded-lg"
-          onClick={() => {
-            deleteTask(task?.id as number);
+          onClick={async () => {
+            await deleteTask(task?.id as number);
             deleteTaskInContext(task?.id as number);
           }}
         >

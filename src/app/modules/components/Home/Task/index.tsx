@@ -5,12 +5,14 @@ import { decrypt } from '../../../../utils/helpers/cryptoJS';
 import { localStorageGet } from '../../../../utils/helpers/localStorage';
 import TaskDetails from './TaskDetails';
 import TaskContainer from './TasksContainer';
+import Progress from './Progress';
 
 const token = localStorageGet('to_do_token_');
 const email = decrypt(token as string);
 
 const Tasks = () => {
   const [isViewTask, setIsViewTask] = useState(false);
+  const [isTaskContainer, setIsTaskContainer] = useState(true);
   const [taskDetails, setTaskDetails] = useState<ITasks>();
   const { tasks } = useTasks();
 
@@ -35,18 +37,26 @@ const Tasks = () => {
   };
 
   const toggleTaskDetails = () => {
-    console.log(isViewTask);
-    console.log('toogled');
     setIsViewTask(!isViewTask);
+  };
+
+  const toggleTaskContainer = () => {
+    setIsTaskContainer(!isTaskContainer);
   };
 
   return (
     <>
+      <Progress
+        tasks={tasks}
+        userTasks={userTasks}
+        toggleTaskDetails={toggleTaskDetails}
+        toggleTaskContainer={toggleTaskContainer}
+      />
       <p className="text-white text-2xl px-8 font-Mulish font-extrabold">
         Task
         {toDayTasks.length !== 0 && toDayTasks.length === 1
           ? ''
-          : 's'}
+          : 's'}{' '}
         ({toDayTasks.length})
       </p>
       {isViewTask && (
@@ -55,13 +65,15 @@ const Tasks = () => {
           toggleTaskDetails={toggleTaskDetails}
         />
       )}
-      <TaskContainer
-        toggleTaskDetails={(e) => {
-          assignTaskData(e);
-          setIsViewTask(!isViewTask);
-        }}
-        toDayTasks={toDayTasks}
-      />
+      {isTaskContainer && (
+        <TaskContainer
+          toggleTaskDetails={(e) => {
+            assignTaskData(e);
+            setIsViewTask(!isViewTask);
+          }}
+          toDayTasks={toDayTasks}
+        />
+      )}
     </>
   );
 };

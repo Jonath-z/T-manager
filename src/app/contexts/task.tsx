@@ -4,7 +4,6 @@ import {
   useContext,
   createContext,
   FC,
-  useCallback,
 } from 'react';
 
 import useWeb3 from '../hooks/useWeb3';
@@ -95,7 +94,6 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
         setWalletConnected(false);
       }
     })();
-    return setTasks([]);
   }, []);
 
   const toggleTaskStatus = (_task_id: number) => {
@@ -110,10 +108,10 @@ const TasksProvider: FC = ({ children }): JSX.Element => {
   };
 
   const deleteTaskInContext = (_task_id: number) => {
-    setTasks((prevTasks) => {
-      const state = [...prevTasks];
-      return state.filter((task) => task.id !== _task_id);
-    });
+    if (tasks.length !== 0) {
+      const newTasks = tasks.filter((task) => task.id !== _task_id);
+      setTasks(() => [...newTasks]);
+    }
   };
 
   const updateAfterAddTask = async () => {

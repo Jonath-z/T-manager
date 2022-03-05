@@ -6,7 +6,7 @@ import { useUsers } from '../../../contexts/users';
 import { localStorageGet } from '../../../utils/helpers/localStorage';
 import AddTaskFrame from './Frames/AddTask';
 import { useSweepDown } from '../../../contexts/sweepDown';
-import Progress from './Progress';
+// import Progress from './Progress';
 import Task from './Task';
 
 const HomePage = () => {
@@ -28,7 +28,6 @@ const HomePage = () => {
       />
       <SearchBar />
       <AddButton onClick={toggleFrame} />
-      <Progress />
       <Task />
       {isFrameOpened && <AddTaskFrame />}
     </div>

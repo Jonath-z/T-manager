@@ -1,6 +1,5 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ITasks } from '../../../../../types';
-import { useLongPress } from 'use-long-press';
 import useWeb3 from '../../../../../hooks/useWeb3';
 import { useTasks } from '../../../../../contexts/task';
 import useIsVisibleOnScreen from '../../../../../hooks/useIsVisibleOnScreen';
@@ -22,13 +21,6 @@ const TaskContainer = ({ toDayTasks, toggleTaskDetails }: IProps) => {
     },
     ref.current?.childNodes as NodeList,
   );
-  const longPressAction = useCallback(() => {
-    console.log('long pressed');
-  }, []);
-
-  const longPress = useLongPress(longPressAction, {
-    threshold: 500,
-  });
 
   const updateStatus = (e: any) => {
     console.log(e.target.value);
@@ -47,7 +39,6 @@ const TaskContainer = ({ toDayTasks, toggleTaskDetails }: IProps) => {
         .map((userTask, index) => {
           return (
             <div
-              {...longPress}
               key={`index_${index}`}
               className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center  bg-opacity-70`}
             >

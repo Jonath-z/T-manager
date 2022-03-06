@@ -23,6 +23,11 @@ const useWeb3 = () => {
     })();
   }, []);
 
+  const getBalance = async () => {
+    const balance = await web3_provider.eth.getBalance(account);
+    return balance;
+  };
+
   const createTask = async (
     title: string | undefined,
     content: string | undefined,
@@ -70,6 +75,8 @@ const useWeb3 = () => {
   return {
     createTask,
     createUser,
+    getBalance,
+    account,
     web3_provider,
     Contract,
     updateTaskStatus,

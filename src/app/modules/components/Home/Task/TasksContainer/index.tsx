@@ -3,6 +3,7 @@ import { ITasks } from '../../../../../types';
 import useWeb3 from '../../../../../hooks/useWeb3';
 import { useTasks } from '../../../../../contexts/task';
 import useIsVisibleOnScreen from '../../../../../hooks/useIsVisibleOnScreen';
+import TaskCard from '../_modules/TaskCard';
 
 interface IProps {
   toDayTasks: ITasks[];
@@ -23,7 +24,6 @@ const TaskContainer = ({ toDayTasks, toggleTaskDetails }: IProps) => {
   );
 
   const updateStatus = (e: any) => {
-    console.log(e.target.value);
     (async () => {
       await updateTaskStatus(e.target.value);
       toggleTaskStatus(e.target.value);
@@ -38,32 +38,14 @@ const TaskContainer = ({ toDayTasks, toggleTaskDetails }: IProps) => {
       {toDayTasks
         .map((userTask, index) => {
           return (
-            <div
-              key={`index_${index}`}
-              className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 flex items-center  bg-opacity-70`}
-            >
-              <input
-                type="checkbox"
-                value={userTask.id}
-                onChange={updateStatus}
-                name="task"
-                className="form-checkbox rounded-full outline-hidden text-[#00B4D8]"
-                checked={userTask.completed}
-              />
-              <label
-                htmlFor="task"
-                className="pl-2 text-white font-Mulish inline-flex justify-between items-center w-full"
-              >
-                {userTask.title}
-                <span
-                  className="text-xs text-slate-200 pr-1"
-                  data-task={JSON.stringify(userTask)}
-                  onClick={toggleTaskDetails}
-                >
-                  view
-                </span>
-              </label>
-            </div>
+            <TaskCard
+              task={userTask}
+              index={index}
+              onChange={updateStatus}
+              onClick={toggleTaskDetails}
+              allowOnChange={true}
+              readonly={false}
+            />
           );
         })
         .reverse()}

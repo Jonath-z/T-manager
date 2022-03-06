@@ -3,15 +3,23 @@ import SearchBar from './Search';
 import AddButton from './AddButton';
 import { decrypt } from '../../../utils/helpers/cryptoJS';
 import { useUsers } from '../../../contexts/users';
+import { useSweepDown } from '../../../contexts/sweepDown';
 import { localStorageGet } from '../../../utils/helpers/localStorage';
 import AddTaskFrame from './Frames/AddTask';
-import { useSweepDown } from '../../../contexts/sweepDown';
-// import Progress from './Progress';
 import Task from './Task';
+import SearchTaskFrame from './Frames/Search';
+import { useState } from 'react';
+import Menu from './Frames/Menu';
 
 const HomePage = () => {
+  const [inputValue, setInputValue] = useState('');
   const { users } = useUsers();
-  const { toggleFrame, isFrameOpened } = useSweepDown();
+  const {
+    toggleTaskFrame,
+    isTaskFrameOpened,
+    isSearchFrameOpened,
+    isMenuFrameOpened,
+  } = useSweepDown();
   const token = localStorageGet('to_do_token_');
 
   const email = decrypt(token as string);
@@ -20,16 +28,24 @@ const HomePage = () => {
     (user) => user.email === email,
   );
 
+  const getSearchInput = (e: any) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <div className="h-full absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br home">
       <Header
         name={usersCollection[0]?.name}
         profile={usersCollection[0]?.profile}
       />
-      <SearchBar />
-      <AddButton onClick={toggleFrame} />
+      <SearchBar onChange={getSearchInput} />
+      <AddButton onClick={toggleTaskFrame} />
       <Task />
-      {isFrameOpened && <AddTaskFrame />}
+      {isSearchFrameOpened && (
+        <SearchTaskFrame inputValue={inputValue} />
+      )}
+      {isMenuFrameOpened && <Menu />}
+      {isTaskFrameOpened && <AddTaskFrame />}
     </div>
   );
 };

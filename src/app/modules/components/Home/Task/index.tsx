@@ -3,7 +3,7 @@ import { useTasks } from '../../../../contexts/task';
 import { ITasks } from '../../../../types';
 import { decrypt } from '../../../../utils/helpers/cryptoJS';
 import { localStorageGet } from '../../../../utils/helpers/localStorage';
-import TaskDetails from './TaskDetails';
+import TaskDetails from './_modules/TaskDetails';
 import TaskContainer from './TasksContainer';
 import Progress from './Progress';
 
@@ -51,14 +51,17 @@ const Tasks = () => {
         userTasks={userTasks}
         toggleTaskDetails={toggleTaskDetails}
         toggleTaskContainer={toggleTaskContainer}
+        setTaskDetails={assignTaskData}
       />
-      <p className="text-white text-2xl px-8 font-Mulish font-extrabold">
-        Task
-        {toDayTasks.length !== 0 && toDayTasks.length === 1
-          ? ''
-          : 's'}{' '}
-        ({toDayTasks.length})
-      </p>
+      {isTaskContainer && (
+        <p className="text-white text-2xl px-8 font-Mulish font-extrabold">
+          Task
+          {toDayTasks.length !== 0 && toDayTasks.length === 1
+            ? ''
+            : 's'}{' '}
+          ({toDayTasks.length})
+        </p>
+      )}
       {isViewTask && (
         <TaskDetails
           task={taskDetails}

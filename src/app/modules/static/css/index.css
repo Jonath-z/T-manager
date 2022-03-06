@@ -218,7 +218,8 @@ input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(100%);
 }
 
-#taskFrameContainer {
+#taskFrameContainer,
+#searchFrameContainer {
   animation: sweepup 0.3s ease-in;
 }
 @keyframes sweepup {

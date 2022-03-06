@@ -64,7 +64,6 @@ const AddTaskFrame = () => {
 
   const getTextareaValue = (e: any) => {
     setTextareaValue(e.target.value);
-    console.log(e.target.value);
   };
 
   return (

@@ -3,13 +3,15 @@ import useProgress from '../../../../../hooks/useProgress';
 import { ITasks } from '../../../../../types';
 import { useLongPress } from 'use-long-press';
 import ProgressView from '../ProgressView';
-import { stringify, parse } from 'flatted';
+import { stringify } from 'flatted';
+import useClickOutside from '../../../../../hooks/useClickOutside';
 
 interface IProps {
   userTasks: ITasks[];
   tasks: ITasks[];
   toggleTaskDetails: () => void;
   toggleTaskContainer: () => void;
+  setTaskDetails: (e: any) => void;
 }
 
 const Progress = ({
@@ -17,13 +19,10 @@ const Progress = ({
   tasks,
   toggleTaskDetails,
   toggleTaskContainer,
+  setTaskDetails,
 }: IProps) => {
-  const [progressViewData, setProgressViewData] = useState<ITasks[]>(
-    [],
-  );
   const [isProgressView, setIsProgressView] = useState(false);
   const progress = useProgress(tasks, userTasks);
-  const parentRef = useRef<HTMLDivElement>(null);
 
   window.oncontextmenu = (e) => {
     e.preventDefault();
@@ -31,23 +30,18 @@ const Progress = ({
   };
 
   const longPressAction = () => {
-    setProgressViewData(
-      JSON.parse(
-        parentRef.current?.getAttribute('data-task') as string,
-      ),
-    );
     toggleTaskContainer();
     setIsProgressView(!isProgressView);
   };
-
-  console.log('is progress view', isProgressView);
 
   const longPress = useLongPress(longPressAction, {
     threshold: 500,
   });
 
+  const clickRef = useClickOutside(longPressAction);
+
   return (
-    <div>
+    <div ref={clickRef}>
       <p className="text-white text-2xl px-8 font-Mulish font-extrabold py-1 flex justify-between items-center">
         Progress
       </p>
@@ -57,7 +51,6 @@ const Progress = ({
             return (
               <div
                 key={`index_${index}`}
-                ref={parentRef}
                 data-task={stringify(day.task)}
                 {...longPress}
                 className="text-white progressComponent mx-3 py-5 px-5 rounded-lg font-Mulish"
@@ -76,15 +69,19 @@ const Progress = ({
                     style={{ width: `${day.progress}%` }}
                   />
                 </div>
-                {isProgressView &&
-                  progressViewData.map((progressData) => {
-                    return (
-                      <ProgressView
-                        progressedTasks={progressData}
-                        toggleTaskDetails={toggleTaskDetails}
-                      />
-                    );
-                  })}
+                <div className="max-h-96 bottom-0 overflow-y-scroll">
+                  {isProgressView &&
+                    day.task.map((progressData, index) => {
+                      return (
+                        <ProgressView
+                          key={`index_${index}`}
+                          progressedTasks={progressData}
+                          toggleTaskDetails={toggleTaskDetails}
+                          setTaskDetails={setTaskDetails}
+                        />
+                      );
+                    })}
+                </div>
               </div>
             );
           })

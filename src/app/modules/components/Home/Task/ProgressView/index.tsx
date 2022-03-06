@@ -4,11 +4,13 @@ import { ITasks } from '../../../../../types';
 interface IProps {
   progressedTasks: ITasks;
   toggleTaskDetails: () => void;
+  setTaskDetails: (e: any) => void;
 }
 
 const ProgressView = ({
   progressedTasks,
   toggleTaskDetails,
+  setTaskDetails,
 }: IProps) => {
   return (
     <div
@@ -18,6 +20,7 @@ const ProgressView = ({
       <input
         type="checkbox"
         value={progressedTasks.id}
+        readOnly
         name="task"
         className="form-checkbox rounded-full outline-hidden text-[#00B4D8]"
         checked={progressedTasks.completed}
@@ -30,7 +33,10 @@ const ProgressView = ({
         <span
           className="text-xs text-slate-200 pr-1"
           data-task={JSON.stringify(progressedTasks)}
-          onClick={toggleTaskDetails}
+          onClick={(e) => {
+            toggleTaskDetails();
+            setTaskDetails(e);
+          }}
         >
           view
         </span>

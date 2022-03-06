@@ -1,5 +1,6 @@
 import React from 'react';
 import { RiMenu4Line } from 'react-icons/ri';
+import { useSweepDown } from '../../../../contexts/sweepDown';
 
 interface IProps {
   name: string | undefined;
@@ -7,12 +8,16 @@ interface IProps {
 }
 
 const Header = ({ name, profile }: IProps) => {
+  const { toggleMenuFrame } = useSweepDown();
   const date = new Date();
   const days = ['Sun', 'Mon', 'Tue', 'wed', 'Thu', 'Fri', 'Sat'];
-  console.log(days[date.getDay()], date.getDay());
+
   return (
     <div className="py-5 flex justify-around items-center">
-      <RiMenu4Line className="float-left  text-3xl text-white" />
+      <RiMenu4Line
+        className="float-left  text-3xl text-white"
+        onClick={toggleMenuFrame}
+      />
       <p className="flex flex-col text-center">
         <span className="text-sm font-Mulish text-slate-400">
           Hi {name}

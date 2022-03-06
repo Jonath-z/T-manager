@@ -13,22 +13,32 @@ interface ISweep {
   frame: LegacyRef<HTMLDivElement> | null;
   sweepDown: LegacyRef<HTMLDivElement> | null;
   frameContainer: LegacyRef<HTMLDivElement> | null;
-  isFrameOpened: boolean;
+  isTaskFrameOpened: boolean;
+  isSearchFrameOpened: boolean;
+  isMenuFrameOpened: boolean;
   onTouchStart: (e: React.TouchEvent) => void;
   onTouchmouve: (e: React.TouchEvent) => void;
   onTouchend: (e: React.TouchEvent) => void;
-  toggleFrame: () => void;
+  toggleTaskFrame: () => void;
+  toggleSearchFrame: () => void;
+  toggleMenuFrame: () => void;
+  setIsSearchFrameOpened: (value: boolean) => void;
 }
 
-const defaultContext = {
+const defaultContext: ISweep = {
   frame: null,
   sweepDown: null,
   frameContainer: null,
-  isFrameOpened: false,
+  isTaskFrameOpened: false,
+  isSearchFrameOpened: false,
+  isMenuFrameOpened: false,
   onTouchStart: () => null,
   onTouchmouve: () => null,
   onTouchend: () => null,
-  toggleFrame: () => null,
+  toggleTaskFrame: () => null,
+  toggleSearchFrame: () => null,
+  toggleMenuFrame: () => null,
+  setIsSearchFrameOpened: () => null,
 };
 
 const SweepDownContext = createContext<ISweep>(defaultContext);
@@ -38,10 +48,21 @@ const SweepDownProvider: FC = ({ children }) => {
   const frame = useRef<HTMLDivElement>(null);
   const sweepDown = useRef<HTMLDivElement>(null);
   const frameContainer = useRef<HTMLDivElement>(null);
-  const [isFrameOpened, setIsFrameOpened] = useState(false);
+  const [isTaskFrameOpened, setIsTaskFrameOpened] = useState(false);
+  const [isSearchFrameOpened, setIsSearchFrameOpened] =
+    useState(false);
+  const [isMenuFrameOpened, setIsMenuFrameOpened] = useState(false);
 
-  const toggleFrame = () => {
-    setIsFrameOpened(!isFrameOpened);
+  const toggleTaskFrame = () => {
+    setIsTaskFrameOpened(!isTaskFrameOpened);
+  };
+
+  const toggleSearchFrame = () => {
+    setIsSearchFrameOpened(!isSearchFrameOpened);
+  };
+
+  const toggleMenuFrame = () => {
+    setIsMenuFrameOpened(!isMenuFrameOpened);
   };
 
   const windowHeight = window.innerHeight;
@@ -102,7 +123,9 @@ const SweepDownProvider: FC = ({ children }) => {
       }
 
       if (destination.y >= windowHeight) {
-        setIsFrameOpened(false);
+        setIsTaskFrameOpened(false);
+        setIsSearchFrameOpened(false);
+        setIsMenuFrameOpened(false);
       }
     } else {
       if (frameContainer.current !== null)
@@ -115,11 +138,16 @@ const SweepDownProvider: FC = ({ children }) => {
         frame,
         sweepDown,
         frameContainer,
-        isFrameOpened,
+        isTaskFrameOpened,
+        isSearchFrameOpened,
+        isMenuFrameOpened,
         onTouchStart,
         onTouchmouve,
         onTouchend,
-        toggleFrame,
+        toggleTaskFrame,
+        toggleSearchFrame,
+        toggleMenuFrame,
+        setIsSearchFrameOpened,
       }}
     >
       {children}

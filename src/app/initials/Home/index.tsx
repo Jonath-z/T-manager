@@ -1,4 +1,4 @@
-import HomePage from '../../modules/components/Home';
+import HomePage from '../../components/Home';
 import SweepDownProvider from '../../contexts/sweepDown';
 import ProgressProvider from '../../contexts/progress';
 

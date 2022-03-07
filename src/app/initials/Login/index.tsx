@@ -1,7 +1,7 @@
 import React from 'react';
-import LoginPage from '../../modules/components/Login';
+import LoginPage from '../../components/Login';
 import { useAccount } from '../../contexts/task';
-import LoadingPage from '../../modules/components/Login/_modules/Loading';
+import LoadingPage from '../../components/Login/_modules/Loading';
 
 const Login = () => {
   const { walletConnected, failedToConnect } = useAccount();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import TaskDetails from '../../Task/__modules/TaskDetails';
 import { AiOutlineMinus } from 'react-icons/ai';
@@ -75,11 +76,14 @@ const SearchTaskFrame = ({ inputValue }: IProps) => {
       )}
       <div
         className="absolute top-40 bottom-0 left-0 right-0 z-10 overflow-y-auto
-         rounded-t-3xl home 2xl:w-[30rem] 2xl:relative 2xl:top-0 2xl:mr-8 2xl:bottom-0 2xl:overflow-hidden"
+         rounded-t-3xl home 2xl:relative 2xl:top-0 2xl:w-[32rem] 2xl:mr-8 2xl:overflow-hidden 2xl:rounded-3xl"
         id="searchFrameContainer"
         ref={frameContainer}
       >
-        <div className="rounded-t-3xl py-5" ref={frame}>
+        <div
+          className="rounded-t-3xl py-5 2xl:h-[80vh]  2xl:overflow-y-auto 2xl:scrollbar-thumb-gray-100 2xl:scrollbar-track-gray-900 scrollbar-thin md:px-[6rem]"
+          ref={frame}
+        >
           {!isDesk && (
             <div
               ref={sweepDown}
@@ -91,37 +95,39 @@ const SearchTaskFrame = ({ inputValue }: IProps) => {
               <AiOutlineMinus className="mx-auto text-slate-500 text-2xl font-Mulish" />
             </div>
           )}
-          {userTasks.map((task, index) => {
-            return (
-              <div
-                key={`index_${index}`}
-                data-task={stringify(task)}
-                className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 mx-8 flex items-center  bg-opacity-70`}
-              >
-                <input
-                  type="checkbox"
-                  value={task.id}
-                  readOnly
-                  name="task"
-                  className="form-checkbox rounded-full outline-hidden text-[#00B4D8]"
-                  checked={task.completed}
-                />
-                <label
-                  htmlFor="task"
-                  className="taskLabel pl-2 text-white font-Mulish inline-flex justify-between items-center w-full"
+          {userTasks
+            .map((task, index) => {
+              return (
+                <div
+                  key={`index_${index}`}
+                  data-task={stringify(task)}
+                  className={`tasks bg-slate-600 py-5 px-2 rounded-lg mt-3 mx-8 flex items-center  bg-opacity-70`}
                 >
-                  <span>{task.title}</span>
-                  <span
-                    className="text-xs text-slate-200 pr-1 cursor-pointer"
-                    data-task={JSON.stringify(task)}
-                    onClick={setTaskData}
+                  <input
+                    type="checkbox"
+                    value={task.id}
+                    readOnly
+                    name="task"
+                    className="form-checkbox rounded-full outline-hidden text-[#00B4D8]"
+                    checked={task.completed}
+                  />
+                  <label
+                    htmlFor="task"
+                    className="taskLabel pl-2 text-white font-Mulish inline-flex justify-between items-center w-full"
                   >
-                    view
-                  </span>
-                </label>
-              </div>
-            );
-          })}
+                    <span>{task.title}</span>
+                    <span
+                      className="text-xs text-slate-200 pr-1 cursor-pointer"
+                      data-task={JSON.stringify(task)}
+                      onClick={setTaskData}
+                    >
+                      view
+                    </span>
+                  </label>
+                </div>
+              );
+            })
+            .reverse()}
         </div>
       </div>
     </>

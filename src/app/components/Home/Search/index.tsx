@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useSweepDown } from '../../../contexts/sweepDown';
 
@@ -8,7 +9,7 @@ interface IProps {
 const SearchBar = ({ onChange }: IProps) => {
   const { setIsSearchFrameOpened } = useSweepDown();
   return (
-    <div className="text-center 2xl:text-right mx-8 py-2">
+    <div className="text-center 2xl:text-right mx-8 py-2 md:mx-[6rem]">
       <input
         onFocusCapture={() => setIsSearchFrameOpened(true)}
         onChange={onChange}

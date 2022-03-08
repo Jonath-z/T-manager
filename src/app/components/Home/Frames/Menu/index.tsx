@@ -23,8 +23,8 @@ const Menu = () => {
   useEffect(() => {
     (async () => {
       const balance = await getBalance();
-      const intBalance = Number(balance);
-      const reducedLength = intBalance / Math.pow(10, 18);
+      // const intBalance = Number(balance);
+      // const reducedLength = intBalance / Math.pow(10, 18);
       setBalance(balance);
     })();
   }, []);
@@ -41,7 +41,7 @@ const Menu = () => {
       ref={frameContainer}
     >
       <div
-        className="home fixed bottom-0 left-0 right-0 top-40 rounded-t-3xl pt-5 overflow-y-scroll"
+        className="home fixed bottom-0 left-0 right-0 top-40 rounded-t-3xl pt-5 overflow-y-scroll md:px-[6rem]"
         id="taskFrame"
         ref={frame}
       >

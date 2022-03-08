@@ -5,7 +5,7 @@ import { useAccount } from '../../../../contexts/task';
 const LoadingPage = () => {
   const { failedToConnect } = useAccount();
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-[#051125]">
+    <div className="flex flex-col justify-center items-center h-full bg-[#051125]">
       <img
         src={metamMask_Logo}
         alt="metamask"

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMinus } from 'react-icons/ai';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -84,7 +85,7 @@ const AddTaskFrame = ({ onOutSideClick }: IProps) => {
       ref={!isDesk ? frameContainer : outSideRef}
     >
       <div
-        className="home fixed bottom-0 left-0 right-0 top-32 rounded-t-3xl pt-5 overflow-y-auto 2xl:w-96 2xl:relative 2xl:m-auto 2xl:rounded-lg"
+        className="home fixed bottom-0 left-0 right-0 top-32 rounded-t-3xl pt-5 overflow-y-auto 2xl:w-96 2xl:relative 2xl:m-auto 2xl:rounded-lg md:px-[6rem]"
         id="taskFrame"
         ref={frame}
       >

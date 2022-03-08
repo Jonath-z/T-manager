@@ -8,7 +8,7 @@ interface IProps {
 const AddButton = ({ onClick }: IProps) => {
   return (
     <button
-      className="addButton px-5 py-5 rounded-full absolute bottom-10 right-10 text-white shadow-2xl shadow-black z-10"
+      className="addButton px-5 py-5 rounded-full absolute bottom-10 right-10 text-white shadow-2xl shadow-black z-10 md:right-20"
       onClick={onClick}
     >
       <HiOutlinePlusSm className="text-2xl" />

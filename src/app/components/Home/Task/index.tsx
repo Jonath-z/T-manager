@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { useTasks } from '../../../contexts/task';
 import { ITasks } from '../../../types';
@@ -63,15 +64,6 @@ const Tasks = ({ inputValue }: IProps) => {
           toggleTaskContainer={toggleTaskContainer}
           setTaskDetails={assignTaskData}
         />
-      )}
-      {isTaskContainer && !isDesk && (
-        <p className="text-white text-2xl px-8 font-Mulish font-extrabold">
-          Task
-          {toDayTasks.length !== 0 && toDayTasks.length === 1
-            ? ''
-            : 's'}{' '}
-          ({toDayTasks.length})
-        </p>
       )}
       {isViewTask && (
         <TaskDetails

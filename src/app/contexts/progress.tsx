@@ -8,6 +8,7 @@ import {
   useState,
   useContext,
   createContext,
+  FC,
 } from 'react';
 
 interface ProgressCxt {
@@ -40,7 +41,7 @@ const initialState: ProgressCxt[] = [
 const Progress = createContext<ProgressCxt[]>(initialState);
 export const useProgress = () => useContext(Progress);
 
-const ProgressProvider = ({ children }: any) => {
+const ProgressProvider: FC = ({ children }) => {
   const { tasks } = useTasks();
 
   const dateMemo = useMemo((): string[] => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import Header from './Header';
 import SearchBar from './Search';
@@ -12,6 +13,7 @@ import SearchTaskFrame from './Frames/Search';
 import Menu from './Frames/Menu';
 import LeftSlide from '../../modules/responsive/LeftSlide';
 import useResponsive from '../../hooks/useResponsive';
+import useClickOutside from '../../hooks/useClickOutside';
 
 const HomePage = () => {
   const [inputValue, setInputValue] = useState('');
@@ -21,15 +23,14 @@ const HomePage = () => {
     isTaskFrameOpened,
     isSearchFrameOpened,
     isMenuFrameOpened,
+    setIsSearchFrameOpened,
   } = useSweepDown();
   const isDesk = useResponsive('(min-width: 1024px)')[0];
 
-  const formatDate = (date: Date) => {
-    const year = date.getFullYear().toString();
-    const month = (date.getMonth() + 101).toString().substring(1);
-    const day = (date.getDate() + 100).toString().substring(1);
-    return year + '-' + month + '-' + day;
+  const onOutSideClick = () => {
+    setIsSearchFrameOpened(false);
   };
+  const outSideRef = useClickOutside(onOutSideClick);
 
   const date = new Date();
   const days = ['Sun', 'Mon', 'Tue', 'wed', 'Thu', 'Fri', 'Sat'];
@@ -46,7 +47,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="h-full absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br home">
+    <div className="h-full absolute top-0 left-0 right-0 bottom-0 home">
       {!isDesk && (
         <Header
           name={usersCollection[0]?.name}
@@ -74,7 +75,7 @@ const HomePage = () => {
               </p>
               <SearchBar onChange={getSearchInput} />
             </div>
-            <div className="mt-10">
+            <div className="pt-10" ref={outSideRef}>
               <Task inputValue={inputValue} />
             </div>
           </div>

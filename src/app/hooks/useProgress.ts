@@ -1,7 +1,6 @@
 import { ITasks } from '../types';
 
 const useProgress = (tasks: ITasks[], userTasks: ITasks[]) => {
-  console.log(tasks);
   const dateMemo: string[] = [];
   const sortedByDate: {
     date: string;
@@ -33,7 +32,6 @@ const useProgress = (tasks: ITasks[], userTasks: ITasks[]) => {
       index ===
       self.findIndex((element) => element.date === data.date),
   );
-  console.log('sorted by date', sortedByDateDiplicateRemoved);
 
   ///////////////// update progress //////////////////
   sortedByDateDiplicateRemoved.forEach((task) => {
@@ -41,7 +39,6 @@ const useProgress = (tasks: ITasks[], userTasks: ITasks[]) => {
     const progress = (completedTask.length * 100) / task.task.length;
     task.progress = Math.floor(progress);
   });
-  console.log('sorted by date', sortedByDateDiplicateRemoved);
   return sortedByDateDiplicateRemoved;
 };
 

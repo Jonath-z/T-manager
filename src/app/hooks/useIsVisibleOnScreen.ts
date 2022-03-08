@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useMemo } from 'react';
 
 interface IOption {
   root: HTMLDivElement;

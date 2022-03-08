@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { ITasks } from '../../../../types';
 
@@ -7,7 +8,7 @@ interface IProps {
   setTaskDetails: (e: any) => void;
 }
 
-const ProgressView = ({
+const ProgressDetails = ({
   progressedTasks,
   toggleTaskDetails,
   setTaskDetails,
@@ -45,4 +46,4 @@ const ProgressView = ({
   );
 };
 
-export default ProgressView;
+export default ProgressDetails;

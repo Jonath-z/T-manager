@@ -6,6 +6,7 @@ import useWeb3 from '../../../../hooks/useWeb3';
 import { useUsers } from '../../../../contexts/users';
 import { localStorageGet } from '../../../../utils/helpers/localStorage';
 import { decrypt } from '../../../../utils/helpers/cryptoJS';
+import { AiOutlineLogout } from 'react-icons/ai';
 
 const Menu = () => {
   const [balance, setBalance] = useState('');
@@ -25,7 +26,7 @@ const Menu = () => {
       const balance = await getBalance();
       // const intBalance = Number(balance);
       // const reducedLength = intBalance / Math.pow(10, 18);
-      setBalance(balance);
+      setBalance(balance.toString());
     })();
   }, []);
 
@@ -81,7 +82,9 @@ const Menu = () => {
           Option
         </p>
         <p className="font-Mulish py-2 px-8 text-white">
-          <a href="/">Log out</a>
+          <a href="/" className="flex items-center">
+            Log out <AiOutlineLogout className="ml-3" />
+          </a>
         </p>
       </div>
     </div>

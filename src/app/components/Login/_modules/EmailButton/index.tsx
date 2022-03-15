@@ -42,6 +42,7 @@ const EmailButton = () => {
           res.user?.email,
           res.user?.photoURL,
         );
+
         generateToken(res.user?.email as string);
         navigate(`/home`);
       }

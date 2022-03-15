@@ -16,7 +16,7 @@ interface IProps {
 const SearchTaskFrame = ({ inputValue }: IProps) => {
   const token = localStorageGet('to_do_token_');
 
-  const email = decrypt(token as string);
+  const email = () => token !== null && decrypt(token as string);
   const {
     frameContainer,
     frame,
@@ -31,7 +31,7 @@ const SearchTaskFrame = ({ inputValue }: IProps) => {
 
   const { tasks } = useTasks();
   const userTasks = tasks.filter(
-    (task) => task.owner_email === email,
+    (task) => task.owner_email === email(),
   );
 
   const search = () => {

@@ -36,10 +36,10 @@ const HomePage = () => {
   const days = ['Sun', 'Mon', 'Tue', 'wed', 'Thu', 'Fri', 'Sat'];
 
   const token = localStorageGet('to_do_token_');
-  const email = decrypt(token as string);
+  const email = () => token !== null && decrypt(token as string);
 
   const usersCollection = users.filter(
-    (user) => user.email === email,
+    (user) => user.email === email(),
   );
 
   const getSearchInput = (e: any) => {

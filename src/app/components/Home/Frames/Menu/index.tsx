@@ -31,9 +31,9 @@ const Menu = () => {
   }, []);
 
   const token = localStorageGet('to_do_token_');
-  const email = decrypt(token as string);
+  const email = () => token !== null && decrypt(token as string);
 
-  const user = users.filter((user) => user.email === email)[0];
+  const user = users.filter((user) => user.email === email())[0];
 
   return (
     <div

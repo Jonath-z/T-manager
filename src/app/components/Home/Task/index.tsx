@@ -12,7 +12,7 @@ import { useSweepDown } from '../../../contexts/sweepDown';
 import useResponsive from '../../../hooks/useResponsive';
 
 const token = localStorageGet('to_do_token_');
-const email = decrypt(token as string);
+const email = () => token !== null && decrypt(token as string);
 
 interface IProps {
   inputValue: string;
@@ -27,7 +27,7 @@ const Tasks = ({ inputValue }: IProps) => {
   const isDesk = useResponsive('(min-width: 1024px)')[0];
 
   const userTasks = tasks.filter(
-    (task) => task.owner_email === email,
+    (task) => task.owner_email === email(),
   );
 
   const formatDate = (date: Date) => {

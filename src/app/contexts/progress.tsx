@@ -55,12 +55,12 @@ const ProgressProvider: FC = ({ children }) => {
   const [userTasks, setUserTasks] = useState<ITasks[]>([]);
 
   const token = localStorageGet('to_do_token_');
-  const email = decrypt(token as string);
+  const email = () => token !== null && decrypt(token as string);
 
   useEffect(() => {
     tasks.length > 0 &&
       setUserTasks(
-        tasks.filter((task) => task.owner_email === email),
+        tasks.filter((task) => task.owner_email === email()),
       );
   }, [tasks]);
 

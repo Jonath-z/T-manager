@@ -1,11 +1,12 @@
 import React from 'react';
-import { AiOutlineMail } from 'react-icons/ai';
-import { signInwithPopup } from '../../../../auth';
+import { auth, provider } from '../../../../auth';
+import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useUsers } from '../../../../contexts/users';
 import { localStorageSet } from '../../../../utils/helpers/localStorage';
 import { crypt } from '../../../../utils/helpers/cryptoJS';
 import useWeb3 from '../../../../hooks/useWeb3';
+import { FaGoogle } from 'react-icons/fa';
 
 const EmailButton = () => {
   const navigate = useNavigate();
@@ -24,11 +25,16 @@ const EmailButton = () => {
     });
   };
 
-  const signIn = async () => {
-    try {
-      const res = await signInwithPopup();
+  const signUp = () => {
+    signInWithRedirect(auth, provider);
+  };
 
+  const signIn = async () => {
+    const res = await getRedirectResult(auth);
+
+    if (res)
       if (userExists(res.user?.email as string)) {
+        generateToken(res.user?.email as string);
         navigate(`/home`);
       } else {
         await createUser(
@@ -36,14 +42,9 @@ const EmailButton = () => {
           res.user?.email,
           res.user?.photoURL,
         );
-
         generateToken(res.user?.email as string);
         navigate(`/home`);
       }
-    } catch (err) {
-      alert('failed to login');
-      throw err;
-    }
   };
 
   return (
@@ -52,8 +53,20 @@ const EmailButton = () => {
         className="loginButton px-10 flex justify-center items-center rounded-md font-Mulish font-bold text-white py-5 w-full 2xl:w-96 2xl:m-auto"
         onClick={signIn}
       >
-        <AiOutlineMail className="mx-5" />
-        <span>Continue with email</span>
+        <FaGoogle className="mx-5" />
+        <span>Log in with Google</span>
+      </button>
+      <span className="text-white flex justify-between items-center font-Mulish py-1">
+        <hr className="w-20" />
+        or
+        <hr className="w-20" />
+      </span>
+      <button
+        className="2xl:px-10 bg-cyan-800 md:px-5 flex justify-center items-center rounded-md font-Mulish font-bold text-white py-5 w-full 2xl:w-96 2xl:m-auto"
+        onClick={signUp}
+      >
+        <FaGoogle className="mx-5" />
+        <span>Sign up with Google</span>
       </button>
     </div>
   );

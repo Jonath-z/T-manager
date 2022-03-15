@@ -1,15 +1,14 @@
 import firebaseConfig from './config';
-import 'firebase/compat/auth';
+import {
+  getAuth,
+  getRedirectResult,
+  signInWithRedirect,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+export const provider = new GoogleAuthProvider();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: 'select_account',
-});
-
-export const signInwithPopup = async () =>
-  await auth.signInWithPopup(provider);
+export const auth = getAuth();

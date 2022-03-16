@@ -1,7 +1,6 @@
 import React from 'react';
 import EmailButton from './_modules/EmailButton';
 import taskManagement from '../../modules/static/task-management.png';
-// import ToDoVector from '../../__modules__/vectors/toDoListVector';
 
 const LoginPage = (): JSX.Element => {
   return (
